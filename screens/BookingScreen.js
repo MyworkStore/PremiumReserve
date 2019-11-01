@@ -171,8 +171,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageGrid: {
-    width: '80%',
-    height: '80%',
+    width: '85%',
+    height: '85%',
     borderColor: '#000000',
     borderWidth: 1,
     justifyContent: 'center',
