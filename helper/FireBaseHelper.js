@@ -17,10 +17,19 @@ firebase.initializeApp(firebaseConfig);
 
 class FirebaseHelper extends React.Component {
 
-    state = {
-        index: null,
-        data: Object
+    constructor (props) {
+        super(props);
+        this.state = {
+            index: null,
+            data: Object
+        };
+        console.disableYellowBox = true;
     }
+
+    // state = {
+    //     index: null,
+    //     data: Object
+    // }
 
     readUserData=async(table)=>{
 
