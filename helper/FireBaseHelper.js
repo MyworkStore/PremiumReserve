@@ -31,14 +31,37 @@ class FirebaseHelper extends React.Component {
     //     data: Object
     // }
 
-    readUserData=async(table)=>{
+    queryData = async(table) => {
 
         const result = [];
 
-        return firebase.database().ref(''+table+'/').once('value').then((snapshot) => {
-            result.push(snapshot.val());
+        return firebase.database().ref(table).once('value').then(snapshot => {
+
+            let object = Object.values(snapshot.val());
+
+            object.map((item, index) => {
+                result.push(item);
+            });
+            
         }).then(() => {
             return result
+        })
+
+    }
+
+    queryFileStorage = async(path) => {
+
+        const result = [];
+
+        const ref = firebase.storage().ref(path);
+        // const url = await ref.getDownloadUrl();
+
+        ref.getDownloadURL().then(data => {
+            result.push(data);
+         }).then(() => {
+             return result;
+         }).catch(error => {
+             console.log(error)
         })
 
     }
