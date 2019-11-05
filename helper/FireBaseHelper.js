@@ -31,11 +31,11 @@ class FirebaseHelper extends React.Component {
 
     }
 
-    queryData = async(table) => {
+    queryData = async(path) => {
 
         const result = [];
         
-        return this.fireBase.ref(table).once('value').then(snapshot => {
+        return this.fireBase.ref(path).once('value').then(snapshot => {
 
             let object = Object.values(snapshot.val());
 
