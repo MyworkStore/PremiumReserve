@@ -73,7 +73,7 @@ function getImageName(table){
 
   const result = [];
 
-  return FirebaseHelper.queryData("tb_product_master").then((data) => {
+  return FirebaseHelper.queryData(table).then((data) => {
     data.forEach(function(item, index){
       result.push(item);
     })
