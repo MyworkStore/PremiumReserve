@@ -24,18 +24,18 @@ class FirebaseHelper extends React.Component {
             data: Object
         };
         console.disableYellowBox = true;
-    }
 
-    // state = {
-    //     index: null,
-    //     data: Object
-    // }
+
+        this.fireBase = firebase.database();
+        this.fireStorage = firebase.storage();
+
+    }
 
     queryData = async(table) => {
 
         const result = [];
-
-        return firebase.database().ref(table).once('value').then(snapshot => {
+        
+        return this.fireBase.ref(table).once('value').then(snapshot => {
 
             let object = Object.values(snapshot.val());
 
@@ -44,25 +44,24 @@ class FirebaseHelper extends React.Component {
             });
             
         }).then(() => {
-            return result
+            return result;
         })
 
     }
 
     queryFileStorage = async(path) => {
 
-        const result = [];
+        let result = "";
 
-        const ref = firebase.storage().ref(path);
-        // const url = await ref.getDownloadUrl();
+        const ref = this.fireStorage.ref(path);
 
-        ref.getDownloadURL().then(data => {
-            result.push(data);
-         }).then(() => {
-             return result;
-         }).catch(error => {
-             console.log(error)
-        })
+        return ref.getDownloadURL().then(data => {
+            result = data;
+            }).then(() => {
+                return result;
+            }).catch(error => {
+                console.log("Exception : " + error.message_)
+            })
 
     }
 
