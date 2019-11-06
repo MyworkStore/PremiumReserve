@@ -53,11 +53,16 @@ async function getImageName(table){
 async function getImage(imageNameList){
 
   var imageStoreList = [];
+  var object = [];
 
   await imageNameList.forEach(function(item, index){
     FirebaseHelper.queryFileStorage("/itemList/"+item.pic).then((image) => {
         if( image != undefined ){
-          imageStoreList.push(image);
+          object = {
+            data: imageNameList[index],
+            imageUrl: image
+          }
+          imageStoreList.push(object);
         }
     }).then(()=>{
       return imageStoreList;
@@ -68,20 +73,55 @@ async function getImage(imageNameList){
 
 }
 
+function CardList(props){
+
+  // return (
+  //   <View style={styles.cardContainer}>
+  //       {
+  //         props.itemList.map((data, index)=>{
+  //           return <CardItem object={data} key={index}/>
+  //         })
+  //       }
+  //   </View>
+  // )
+
+  return props.itemList.map((data, index)=>{
+    return <CardItem object={data} key={index}/>
+  })
+
+}
+
 function CardItem(props){
+
+  console.log("TEXT")
+  console.log(props.object)
+
+  var param = props.object;
 
   return (
     <Card>
-      <Image 
-          source={{uri : props.image[0]}} 
-          style={
-            {
-              width: '100%',
-              height: '100%',
+      <View style={{flexDirection: 'row'}} key={props.index} >
+        <View style={{flex: 0.3, justifyContent:'center', padding: 5}}>
+          <Image 
+            source={{uri : param.imageUrl}} 
+            style={
+              {
+                width: '100%',
+                height: '100%',
+              }
             }
-          }
-          resizeMode='contain' 
-        />
+            resizeMode='contain'
+          />
+        </View>
+        <View style={{flex: 1, flexDirection: 'column', padding: 5}}>
+            <Text style={{fontFamily: 'kanit-bold', fontSize: 15}}>
+              {param.data.product_name}
+            </Text>
+            <Text>
+              fffff
+            </Text>
+        </View>
+      </View>
     </Card>
   )
 
@@ -110,7 +150,7 @@ export default class ItemScreen extends React.Component {
     imageStoreList = await imageLoader("tb_product_master");
 
     setTimeout(() => {
-      
+
       if( imageStoreList.length > 0 ){
 
         this.setState({
@@ -131,7 +171,8 @@ export default class ItemScreen extends React.Component {
     }else{
       return (
         <View style={styles.container}>
-            <CardItem image={this.state.imageList}/>
+            <CardList itemList={this.state.imageList} />
+            {/* <CardItem image={this.state.imageList}/> */}
         </View>
       );
     }
@@ -147,15 +188,15 @@ ItemScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight+5,
+    marginTop: Constants.statusBarHeight,
     paddingHorizontal: 10,
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   card: {
     flex: 1,
     borderColor: '#d9d9d9',
     borderWidth: 0.5
-  }
+  },
   // imagePanel: {
   //   flex: 1,
   //   justifyContent: 'center',

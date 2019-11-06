@@ -29,9 +29,12 @@ const styles = StyleSheet.create({
     cardContainer: {
         height: 80,
         width: '100%',
-        borderWidth: 0.5,
-        borderColor: '#bfbfbf',
-        
+        //borderWidth: 1,
+        //borderColor: '#8c8c8c',
+        borderRadius: 10,
+        elevation: 3,
+        marginVertical: 5,
+        //backgroundColor: '#f2f2f2'
     }
 
   });
