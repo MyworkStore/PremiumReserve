@@ -23,6 +23,7 @@ class FirebaseHelper extends React.Component {
             index: null,
             data: Object
         };
+        
         console.disableYellowBox = true;
 
 
