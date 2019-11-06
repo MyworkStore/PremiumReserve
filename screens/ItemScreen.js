@@ -14,66 +14,33 @@ import {
 } from 'react-native';
 
 import Images from '../helper/imageHelper'
+import Card from '../components/Card';
+import Constants from 'expo-constants';
 import FirebaseHelper from '../helper/FireBaseHelper'
 
 async function imageLoader(table){
   var imageNameList = [];
-  // var imageList = [];
+  var imageList = [];
   
   imageNameList = await getImageName(table);
 
-  // console.log("========== Item List ===========")
-  // console.log(imageNameList);
-
   if( imageNameList.length > 0 ){
 
-    var temp = "";
-    var imageList = [];
-
-    imageNameList.forEach(async function(item,index){
-
-      temp = await getImage(item.pic);
-
-
-      // imageList = await getImageList(temp).then((data));
-
-      // imageList.push(getImageList(temp));
-      // imageList = getImageList(temp);
-
-      // if( temp != undefined ){
-      //   imageList.push(temp);
-      // }
-
-      // this.setState({
-      //   imageList: imageList
-      // })
-
-    })
-
-    setTimeout(() => {
-      console.log("======= ItemList =========")
-      console.log(imageList);
-    }, 3000);
-  
-    // console.log("TEMP")
-    // console.log(temp)
-
-    // console.log("======== LIST =========")
-    // console.log(this.state.imageList);
-
-    // console.log(imageList);
+    imageList = await getImage(imageNameList);
 
   }else{
-    Alert.alert("ไม่พบรูปภาพ")
+    Alert.alert("ไม่พบรูปภาพ");
   }
+
+  return imageList;
 
 }
 
-function getImageName(table){
+async function getImageName(table){
 
   const result = [];
 
-  return FirebaseHelper.queryData(table).then((data) => {
+  return await FirebaseHelper.queryData(table).then((data) => {
     data.forEach(function(item, index){
       result.push(item);
     })
@@ -83,30 +50,40 @@ function getImageName(table){
 
 }
 
-function getImage(item){
+async function getImage(imageNameList){
 
-  // const result = [];
+  var imageStoreList = [];
 
-  return FirebaseHelper.queryFileStorage("/itemList/"+item).then((image) => {
-    if( image != "undefined" ){
-      // imageStoreList.push(image);
-      return image
-    }
-  }).then((image) => {
-    return image;
+  await imageNameList.forEach(function(item, index){
+    FirebaseHelper.queryFileStorage("/itemList/"+item.pic).then((image) => {
+        if( image != undefined ){
+          imageStoreList.push(image);
+        }
+    }).then(()=>{
+      return imageStoreList;
+    })
   })
+
+  return imageStoreList;
 
 }
 
-function getImageList(image){
+function CardItem(props){
 
-  const imageList = [];
-
-  if( image != undefined ){
-    imageList.push(image);
-  }
-
-  return imageList;
+  return (
+    <Card>
+      <Image 
+          source={{uri : props.image[0]}} 
+          style={
+            {
+              width: '100%',
+              height: '100%',
+            }
+          }
+          resizeMode='contain' 
+        />
+    </Card>
+  )
 
 }
 
@@ -122,63 +99,28 @@ export default class ItemScreen extends React.Component {
 
   }
 
+  async componentDidMount() {
 
-  componentDidMount() {
-
-    var imageNameTemp = [];
     var imageStoreList = [];
 
     this.setState({
-      showLoader: false,
-      imageList: 'https://firebasestorage.googleapis.com/v0/b/allpremium-8a053.appspot.com/o/itemList%2F9000451.PNG?alt=media&token=73965efe-8e3a-4a36-9dc9-40d26b998130'
-    });
+      showLoader: true
+    })
 
-    imageLoader("tb_product_master");
+    imageStoreList = await imageLoader("tb_product_master");
 
-    // FirebaseHelper.queryData("tb_product_master").then((data) => {
-    //   console.log("========= API ============")
-    //   console.log(data)
+    setTimeout(() => {
+      
+      if( imageStoreList.length > 0 ){
 
-    //   if(data.length > 0){
+        this.setState({
+          showLoader: false,
+          imageList: imageStoreList
+        })
+    
+      }
 
-    //     data.forEach(function(item,index){
-
-    //       imageNameTemp.push(item.pic);
-
-    //     })
-
-    //     console.log("=========== TEST ============")
-    //     console.log(imageNameTemp)
-
-    //     imageNameTemp.forEach(function(item,index){
-
-    //       console.log("index : " + index)
-    //       console.log("Item : " + item)
-
-          // FirebaseHelper.queryFileStorage("/itemList/"+item).then((image) => {
-          //   if( image != "undefined" ){
-          //     imageStoreList.push(image);
-          //   }
-          // }).then(() => {
-          //   return imageStoreList;
-          // })
-
-    //     })
-
-    //     console.log("======= State =======")
-    //     console.log(this.state.imageList)
-
-    //     console.log("========= Store List =============")
-    //     console.log("imageStoreList : " + imageStoreList)
-
-    //     this.setState({
-    //       showLoader: false,
-    //       imageList: 'https://firebasestorage.googleapis.com/v0/b/allpremium-8a053.appspot.com/o/itemList%2F9000451.PNG?alt=media&token=73965efe-8e3a-4a36-9dc9-40d26b998130'
-    //     });
-
-    //   }
-
-    // })
+    }, 1000);
 
   }
 
@@ -189,20 +131,7 @@ export default class ItemScreen extends React.Component {
     }else{
       return (
         <View style={styles.container}>
-          <View style={styles.imagePanel}>
-            <View style={styles.imageGrid}>
-            <Image 
-                source={{uri : this.state.imageTest}} 
-                style={
-                  {
-                    width: '100%',
-                    height: '100%',
-                  }
-                }
-                resizeMode='contain' 
-              />
-            </View>
-          </View>
+            <CardItem image={this.state.imageList}/>
         </View>
       );
     }
@@ -218,21 +147,27 @@ ItemScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 10
+    marginTop: Constants.statusBarHeight+5,
+    paddingHorizontal: 10,
+    flexDirection: 'column'
   },
-  imagePanel: {
+  card: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  imageGrid: {
-    width: '80%',
-    height: '80%',
-    borderColor: '#000000',
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10
-  },
+    borderColor: '#d9d9d9',
+    borderWidth: 0.5
+  }
+  // imagePanel: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
+  // imageGrid: {
+  //   width: '80%',
+  //   height: '80%',
+  //   borderColor: '#000000',
+  //   borderWidth: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   borderRadius: 10
+  // },
 });
