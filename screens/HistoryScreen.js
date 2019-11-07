@@ -50,7 +50,7 @@ export default class HistoryScreen extends React.Component {
           />
           </TouchableHighlight>
          <TouchableHighlight onPress={() =>  this.props.navigation.navigate("HistoryDetail",
-         {  orderStatusMsg:'ับจองเรียบร้อย',
+         {  orderStatusMsg:'รับจองเรียบร้อย',
          orderStatus:'C',
          productName:'กระติกโดราเอมอน',
          pic:'9000451.PNG',
