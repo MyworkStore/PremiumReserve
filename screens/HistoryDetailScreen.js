@@ -18,7 +18,7 @@ function DispalyOrderStatusDetail(props){
         case "U":
           // code block
           return ( 
-            <View style={styles.container}>                
+            <View style={styles.container}>  
                 <View style={[styles.containerInner ,{ alignItems:'center'}]}>
                 <Ionicons
                   name={'md-images'}
@@ -139,17 +139,19 @@ export default class HistoryDetailScreen extends React.Component {
   render() {
    // const { navigation } = this.props;
     return (
-      <View>      
-        <View >          
-          <OrderHistoryCard
-            orderStatusMsg={this.state.text}
-            orderStatus ={this.state.status}
-            productName={this.state.productName}
-            pic={this.state.pic}
-            orderNo={this.state.orderNo}
-          />
-        </View>    
-        <DispalyOrderStatusDetail param={this.state} />   
+      <View>
+        <ScrollView>
+          <View >          
+            <OrderHistoryCard
+              orderStatusMsg={this.state.text}
+              orderStatus ={this.state.status}
+              productName={this.state.productName}
+              pic={this.state.pic}
+              orderNo={this.state.orderNo}
+            />
+          </View>    
+          <DispalyOrderStatusDetail param={this.state} />   
+        </ScrollView>      
       </View> 
      
       );
