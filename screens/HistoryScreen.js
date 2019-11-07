@@ -7,54 +7,93 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableHighlight,
   View,
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
+import  OrderHistoryCard  from '../components/OrderHistoryCard';
 
 export default class HistoryScreen extends React.Component {
 
-  // static navigationOptions = {
-  //   title: 'ประวัติ',
-  //   header: null,
-  //   tabBarVisible: false,
-  //   tabBarLabel: null,
-  //   tabBarIcon: null,
-  //  };
-
-  render(){
+  render() {
     return (
-    
-      <View style={styles.container}>
-        <Text style={{textAlign: 'center', fontSize: 20}}>
-          หน้าประวัติ
-        </Text>
-        <TouchableOpacity style={styles.button} onPress={() =>  this.props.navigation.navigate("Home")}>
-           <Text style={{fontSize: 18}}>กลับหน้าหลัก</Text>
-         </TouchableOpacity>
-      </View>
-  
-    );
-  }
+      <View>
+      <TouchableHighlight onPress={() =>  this.props.navigation.navigate("HistoryDetail",
+      {  orderStatusMsg:'รอการ Upload TrueWallet',
+         orderStatus:'U',
+         productName:'กระติกโดราเอมอน',
+         pic:'9000451.PNG',
+         orderNo:'ORD123456789'
+        })}>
+          <OrderHistoryCard 
+            orderStatusMsg={'รอการ Upload TrueWallet'}
+            orderStatus ={'U'}
+            productName={'กระติกโดราเอมอน'}
+            pic={'9000451.PNG'}
+            orderNo={'ORD123456789'}
+          />
+      </TouchableHighlight>
+           <OrderHistoryCard
+            orderStatusMsg={'รอรับจองจากร้านสาขา'}
+            orderStatus ={'K'}
+            productName={'กระติกโดราเอมอน'}
+            pic={'9000451.PNG'}
+            orderNo='ORD123456788'
+          />
+           <TouchableHighlight onPress={() =>  this.props.navigation.navigate("HistoryDetail")}>
+           <OrderHistoryCard
+            orderStatusMsg={'ส่งกลับแก้ไข'}
+            orderStatus ={'R'}
+            productName={'กระติกโดราเอมอน'}
+            pic={'9000451.PNG'}
+            orderNo='ORD123456787'
+          />
+          </TouchableHighlight>
+         <TouchableHighlight onPress={() =>  this.props.navigation.navigate("HistoryDetail",
+         {  orderStatusMsg:'ับจองเรียบร้อย',
+         orderStatus:'C',
+         productName:'กระติกโดราเอมอน',
+         pic:'9000451.PNG',
+         orderNo:'ORD123456786'
+        }
+         )}>
+           <OrderHistoryCard
+            orderStatusMsg={'รับจองเรียบร้อย'}
+            orderStatus ={'C'}
+            productName={'กระติกโดราเอมอน'}
+            pic={'9000451.PNG'}
+            orderNo='ORD123456786'
+          />
+          </TouchableHighlight>
+      </View>     
+      );
+}
 
 }
 
 HistoryScreen.navigationOptions = {
   title: 'ประวัติ',
-  headerLeft: null
+  //headerLeft: null
   // header: null,
   // tabBarVisible: false
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 10
+      height: 105,
+      flexDirection: 'row',
+      marginTop: 10,
+      marginLeft: 10,
+      marginRight: 10,
+      borderRadius: 5
   },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10
+  contentLayout: {
+      flex: 8,
+      padding: 5,
   },
+  iconLayout: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20
+  }
 });

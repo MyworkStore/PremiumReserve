@@ -9,6 +9,7 @@ import HomeScreen from '../screens/HomeScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import BookingScreen from '../screens/BookingScreen';
 import ItemScreen from '../screens/ItemScreen';
+import HistoryDetailScreen from '../screens/HistoryDetailScreen';
 
 import Images from '../helper/imageHelper'
 import { tsExportAssignment } from '@babel/types';
@@ -46,7 +47,8 @@ const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
     Item: ItemScreen,
-    History: HistoryScreen
+    History: HistoryScreen,
+    HistoryDetail: HistoryDetailScreen
   },
   config
 );
@@ -64,9 +66,9 @@ HomeStack.navigationOptions = ({ navigation }) => ({
   tabBarOptions: {
     showLabel: true,
     activeTintColor: '#ff0000',
-    //inactiveTintColor: ''
+    //inactiveTintColor: "red"
   },
-  tabBarVisible: navigation.state.index == 0
+  //tabBarVisible: navigation.state.index == 0
 })
 
 HomeStack.path = '';
@@ -98,12 +100,45 @@ BookingStack.navigationOptions = ({ navigation }) => ({
 
 BookingStack.path = '';
 
+//History
+const HistoryStack = createStackNavigator(
+  {      
+    History: HistoryScreen,
+    HistoryDetail: HistoryDetailScreen
+  },
+  config
+);
+
+HistoryStack.navigationOptions = ({ navigation }) => ({
+  tabBarLabel: 'History',
+  tabBarIcon: ({ focused, tintColor }) => (
+    <TabBarIcon
+      focused={focused}
+      isImage={false}
+      name={'ios-bookmarks'}
+      color={tintColor}
+    />
+  ),
+  tabBarOptions: {
+    showLabel: false,
+    activeTintColor: '#ff0000',
+    //inactiveTintColor: "red"
+  },
+  //tabBarVisible: navigation.state.index == 0
+})
+
+HistoryStack.path = '';
+
+
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  BookingStack
+  BookingStack,
+  HistoryStack
 });
 
 tabNavigator.path = '';
+
 
 export default createAppContainer(createSwitchNavigator(
   {

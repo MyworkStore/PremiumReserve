@@ -41,7 +41,7 @@ async function loadResourcesAsync() {
       // remove this if you are not using it in your app
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
       'kanit': require('./assets/fonts/Kanit-Regular.ttf'),
-      'kanit-bold': require('./assets/fonts/Kanit-Bold.ttf')
+      'kanit-bold': require('./assets/fonts/Kanit-Bold.ttf'),
     }),
   ]);
 }
