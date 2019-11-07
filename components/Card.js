@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         elevation: 3,
         marginVertical: 5,
-        backgroundColor: '#bfbfbf'
+        backgroundColor: '#d9d9d9'
     }
 
   });

@@ -10,13 +10,16 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   View,
-  Alert
+  Alert,
+  NativeModules
 } from 'react-native';
 
 import Images from '../helper/imageHelper'
-import Card from '../components/Card';
-import Constants from 'expo-constants';
+import Card from '../components/Card'
+import Constants from 'expo-constants'
 import FirebaseHelper from '../helper/FireBaseHelper'
+// import DeviceInfo from 'react-native-device-info';
+// import {getUniqueId} from 'react-native-device-info'
 
 async function imageLoader(table){
   var imageNameList = [];
@@ -83,9 +86,6 @@ function CardList(props){
 
 function CardItem(props){
 
-  console.log("TEXT")
-  console.log(props.object)
-
   var param = props.object;
 
   return (
@@ -139,7 +139,12 @@ export default class ItemScreen extends React.Component {
 
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
+
+    // console.log("Device token : " + NativeModules.PlatformConstants.serial)
+    console.log("Expo device : " + Constants.deviceId)
+    // console.log("Device id : " + Platform.deviceId)
+    // console.log("Phone number : " + DeviceInfo.getPhoneNumber())
 
     var imageStoreList = [];
 
@@ -162,25 +167,12 @@ export default class ItemScreen extends React.Component {
 
     }, 1000);
 
-    // setInterval(async () => {
-
-    //   let newData = [];
-
-    //   newData = await FirebaseHelper.queryRealTime("tb_product_master");
-
-    //   setTimeout(() => {
-    //     console.log("New Data")
-    //     console.log(newData)
-    //   }, 1000);
-
-    // }, 2000);
-
   }
 
   render(){
 
     if( this.state.showLoader ){
-      return <View style={styles.container}><ActivityIndicator size="large" color="#0000ff" /></View>
+      return <View style={styles.spinner}><ActivityIndicator size="large" color="#0000ff" /></View>
     }else{
       return (
         <View style={styles.container}>
@@ -207,11 +199,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flexDirection: 'column',
   },
-  card: {
+  spinner: {
     flex: 1,
-    borderColor: '#d9d9d9',
-    borderWidth: 0.5
-  },
+    marginTop: Constants.statusBarHeight,
+    justifyContent: 'center'
+  }
   // imagePanel: {
   //   flex: 1,
   //   justifyContent: 'center',
