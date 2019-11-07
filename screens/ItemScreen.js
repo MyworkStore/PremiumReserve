@@ -40,7 +40,7 @@ async function getImageName(table){
 
   const result = [];
 
-  return await FirebaseHelper.queryData(table).then((data) => {
+  return await FirebaseHelper.queryData(table,'').then((data) => {
     data.forEach(function(item, index){
       result.push(item);
     })
@@ -75,16 +75,6 @@ async function getImage(imageNameList){
 
 function CardList(props){
 
-  // return (
-  //   <View style={styles.cardContainer}>
-  //       {
-  //         props.itemList.map((data, index)=>{
-  //           return <CardItem object={data} key={index}/>
-  //         })
-  //       }
-  //   </View>
-  // )
-
   return props.itemList.map((data, index)=>{
     return <CardItem object={data} key={index}/>
   })
@@ -101,7 +91,7 @@ function CardItem(props){
   return (
     <Card>
       <View style={{flexDirection: 'row'}} key={props.index} >
-        <View style={{flex: 0.3, justifyContent:'center', padding: 5}}>
+        <View style={{flex: 0.3, margin: 3, backgroundColor: '#ffffff'}}>
           <Image 
             source={{uri : param.imageUrl}} 
             style={
@@ -114,12 +104,22 @@ function CardItem(props){
           />
         </View>
         <View style={{flex: 1, flexDirection: 'column', padding: 5}}>
-            <Text style={{fontFamily: 'kanit-bold', fontSize: 15}}>
-              {param.data.product_name}
-            </Text>
-            <Text>
-              fffff
-            </Text>
+            <View>
+              <Text style={{fontFamily: 'kanit-bold', fontSize: 15}}>
+                {param.data.product_name}
+              </Text>
+            </View>
+            <View style={{backgroundColor: '#ffffff', borderRadius: 10, padding: 5}}>
+              <Text>
+                Point : {param.data.all_point}
+              </Text>
+              <Text>
+                Stamp : {param.data.m_stamp}
+              </Text>
+              <Text>
+                Cash : {param.data.cash}
+              </Text>
+            </View>
         </View>
       </View>
     </Card>
@@ -162,6 +162,19 @@ export default class ItemScreen extends React.Component {
 
     }, 1000);
 
+    // setInterval(async () => {
+
+    //   let newData = [];
+
+    //   newData = await FirebaseHelper.queryRealTime("tb_product_master");
+
+    //   setTimeout(() => {
+    //     console.log("New Data")
+    //     console.log(newData)
+    //   }, 1000);
+
+    // }, 2000);
+
   }
 
   render(){
@@ -171,8 +184,9 @@ export default class ItemScreen extends React.Component {
     }else{
       return (
         <View style={styles.container}>
+          <ScrollView>
             <CardList itemList={this.state.imageList} />
-            {/* <CardItem image={this.state.imageList}/> */}
+          </ScrollView>
         </View>
       );
     }
@@ -189,6 +203,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
+    marginBottom: 50,
     paddingHorizontal: 10,
     flexDirection: 'column',
   },

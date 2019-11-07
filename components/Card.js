@@ -27,14 +27,15 @@ export default class Card extends React.Component {
 const styles = StyleSheet.create({
     
     cardContainer: {
-        height: 80,
+        flex: 1,
+        height: 100,
         width: '100%',
         //borderWidth: 1,
         //borderColor: '#8c8c8c',
-        borderRadius: 10,
+        borderRadius: 4,
         elevation: 3,
         marginVertical: 5,
-        //backgroundColor: '#f2f2f2'
+        backgroundColor: '#bfbfbf'
     }
 
   });

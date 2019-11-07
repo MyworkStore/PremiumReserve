@@ -11,10 +11,35 @@ import BookingScreen from '../screens/BookingScreen';
 import ItemScreen from '../screens/ItemScreen';
 
 import Images from '../helper/imageHelper'
+import { tsExportAssignment } from '@babel/types';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
+  // transitionConfig: () => ({
+  //   transitionSpec: {
+  //     duration: 5000,
+  //     // easing: Easing.out(Easing.poly(4)),
+  //     // timing: Animated.timing,
+  //   },
+  //   screenInterpolator: sceneProps => {
+  //     const { layout, position, scene } = sceneProps;
+  //     const { index } = scene;
+
+  //     const height = layout.initHeight;
+  //     const translateY = position.interpolate({
+  //       inputRange: [index - 1, index, index + 1],
+  //       outputRange: [height, 0, 0],
+  //     });
+
+  //     const opacity = position.interpolate({
+  //       inputRange: [index - 1, index - 0.99, index],
+  //       outputRange: [0, 1, 1],
+  //     });
+
+  //     return { opacity, transform: [{ translateY }] };
+  //   },
+  // }),
 });
 
 const HomeStack = createStackNavigator(
@@ -31,15 +56,15 @@ HomeStack.navigationOptions = ({ navigation }) => ({
   tabBarIcon: ({ focused, tintColor }) => (
     <TabBarIcon
       focused={focused}
-      isImage={true}
-      name={Images.iconHome}
+      isImage={false}
+      name={'ios-home'}
       color={tintColor}
     />
   ),
   tabBarOptions: {
-    showLabel: false,
-    activeTintColor: '#000000',
-    inactiveTintColor: "red"
+    showLabel: true,
+    activeTintColor: '#ff0000',
+    //inactiveTintColor: ''
   },
   tabBarVisible: navigation.state.index == 0
 })
@@ -64,9 +89,9 @@ BookingStack.navigationOptions = ({ navigation }) => ({
     />
   ),
   tabBarOptions: {
-    showLabel: false,
+    showLabel: true,
     activeTintColor: "#ff0000",
-    inactiveTintColor: "black"
+    //inactiveTintColor: "black"
   },
   tabBarVisible: navigation.state.index == 0
 })

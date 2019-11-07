@@ -23,19 +23,28 @@ class FirebaseHelper extends React.Component {
             index: null,
             data: Object
         };
+        
         console.disableYellowBox = true;
-
+        // console.ignoredYellowBox = ['Setting a timer'];
 
         this.fireBase = firebase.database();
         this.fireStorage = firebase.storage();
 
     }
 
-    queryData = async(path) => {
+    queryData = async(path, orderByPath) => {
 
         const result = [];
-        
-        return this.fireBase.ref(path).once('value').then(snapshot => {
+
+        const baseRef = this.fireBase.ref(path);
+
+        if( orderByPath == undefined || orderByPath == '' ){
+            baseRef.orderByKey();
+        }else{
+            baseRef.orderByChild(orderByPath);
+        }
+
+        return baseRef.once('value').then(snapshot => {
 
             let object = Object.values(snapshot.val());
 
@@ -62,6 +71,30 @@ class FirebaseHelper extends React.Component {
             }).catch(error => {
                 console.log("Exception : " + error.message_)
             })
+
+    }
+
+    queryRealTime = async(path, orderByPath) => {
+
+        const result = [];
+
+        const baseRef = this.fireBase.ref(path);
+
+        if( orderByPath == undefined || orderByPath == '' ){
+            baseRef.orderByKey();
+        }else{
+            baseRef.orderByChild(orderByPath);
+        }
+
+        baseRef.on('value', async function(snapshot) {
+
+            let object = Object.values(snapshot.val());
+
+            object.map((item, index) => {
+                result.push(item);
+            });
+
+        })
 
     }
 
