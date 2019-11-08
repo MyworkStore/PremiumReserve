@@ -90,17 +90,10 @@ export default class HistoryScreen extends React.Component {
     return(
       <TouchableHighlight onPress={() => this.props.navigation.navigate("HistoryDetail",
       {
-        orderStatusMsg: Lookup[item.item.order_status],
-        orderStatus: item.item.order_status,
-        productName: item.item.product_code,        
-        orderNo: item.item.order_no
+        orderDetail:item.item
       })}>
       <OrderHistoryCard
-        orderStatusMsg={Lookup[item.item.order_status]}
-        orderStatus={item.item.order_status}
-        productName={item.item.product_code}
-        
-        orderNo={item.item.order_no}
+        orderDetail={item.item} 
       />
     </TouchableHighlight>      
     )

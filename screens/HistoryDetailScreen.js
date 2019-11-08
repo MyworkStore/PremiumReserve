@@ -101,25 +101,15 @@ export default class HistoryDetailScreen extends React.Component {
         super(props);
 
         this.state = {
-            text: "",
-            status:"",
-            productName:"",
-            pic:"",
-            orderNo:'',
-            urlImage:''
+           orderDetail:[]
         }
            
     }
 
     componentWillMount(){
-        const { navigation } = this.props;
+        const { navigation } = this.props;        
         this.setState({
-            text: navigation.getParam('orderStatusMsg', 'NO-orderStatusMsg'),
-            status : navigation.getParam('orderStatus', 'NO-orderStatus'),
-            productName:navigation.getParam('productName', 'NO-productName'),
-            pic: navigation.getParam('pic', 'NO-pic'),
-            orderNo: navigation.getParam('orderNo', 'NO-OrderNo'),
-            urlImage:'https://firebasestorage.googleapis.com/v0/b/allpremium-8a053.appspot.com/o/eslip%2FORD123456786.PNG?alt=media&token=78965c5c-9f44-4bc8-bdaf-d368cdcda67c'
+          orderDetail :navigation.getParam('orderDtl', 'NO-orderStatusMsg')
         })
        // console.log('##########'+this.state.text)   
      } 

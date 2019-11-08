@@ -7,6 +7,7 @@ import {
     Image
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Lookup from '../helper/Lookup';
 
 //import { readUserData } from '../function/firebaseHelper'
 function DispalyOrderStatus(props){
@@ -64,18 +65,27 @@ export default class OrderHistoryCard extends Component {
             pic:"",
             orderNo:'',
             urlImage:''
-        }
-           
+        }          
     }
-
+    getProductInfo(table) {
+        const result = [];
+        FirebaseHelper.queryData(table)
+        .then(data=>{
+            this.setState({              
+                productName:data.product_name,
+                pic:data.pic,                               
+              });
+        }           
+        )          
+      }
     componentDidMount(){
-
+        console.log("#################INPUT VIEW###########");
+        console.log('tb_product_master/'+this.props.orderDetail.product_code);
+        this.getProductInfo('tb_product_master/'+this.props.orderDetail.product_code);
         this.setState({
-            text: this.props.orderStatusMsg,
-            status :this.props.orderStatus,
-            productName:this.props.productName,
-            pic: this.props.pic,
-            orderNo: this.props.orderNo,
+            text: Lookup[this.props.orderDetail.order_status],
+            status :this.props.orderDetail.order_status,
+            orderNo: this.props.orderDetail.order_no,
             urlImage:'https://firebasestorage.googleapis.com/v0/b/allpremium-8a053.appspot.com/o/itemList%2F9000451.PNG?alt=media&token=73965efe-8e3a-4a36-9dc9-40d26b998130'
         })
        // console.log('##########'+this.state.text)
