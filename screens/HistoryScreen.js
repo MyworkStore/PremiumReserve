@@ -42,8 +42,7 @@ export default class HistoryScreen extends React.Component {
          // console.log("##### VIEW KEY IN LOOP########");
          // console.log(key);
           //console.log(data[key].product_code);
-          return new Promise(resolve => {
-            
+          return new Promise(resolve => {            
              resolve(
               result.push({
                 allmem_barcode_pic: data[key].allmem_barcode_pic,
@@ -93,15 +92,14 @@ export default class HistoryScreen extends React.Component {
       {
         orderStatusMsg: Lookup[item.item.order_status],
         orderStatus: item.item.order_status,
-        productName: item.item.product_code,
-        pic: '9000451.PNG',
+        productName: item.item.product_code,        
         orderNo: item.item.order_no
       })}>
       <OrderHistoryCard
         orderStatusMsg={Lookup[item.item.order_status]}
         orderStatus={item.item.order_status}
         productName={item.item.product_code}
-        pic={'9000451.PNG'}
+        
         orderNo={item.item.order_no}
       />
     </TouchableHighlight>      
