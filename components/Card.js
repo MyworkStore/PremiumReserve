@@ -1,14 +1,7 @@
 import React from 'react'
 import {
-    Image,
-    Platform,
-    ScrollView,
     StyleSheet,
-    Text,
-    TouchableOpacity,
     View,
-    Button,
-    ImageBackground
   } from 'react-native';
 
 

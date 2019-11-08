@@ -119,22 +119,6 @@ export default class BookingScreen extends React.Component {
             </View>
           </View>
         </View>
-
-        {/* <View style={styles.buttonPanel}>
-          <View style={styles.actionButton}>
-            <Button
-              title="บันทึก"
-              onPress={() => Alert.alert('Right button pressed')}
-            />
-          </View>
-          <View style={styles.actionButton}>
-            <Button
-              title="ยกเลิก"
-              onPress={() => this.clearText()}
-              color={'red'}
-            />
-          </View>
-        </View> */}
       </View>
     );
   }

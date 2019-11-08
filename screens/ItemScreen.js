@@ -9,14 +9,13 @@ import {
   ActivityIndicator,
   View,
   Alert,
-  RefreshControl
+  RefreshControl,
+  TouchableOpacity
 } from 'react-native';
 
-import Images from '../helper/imageHelper'
 import Card from '../components/Card'
 import Constants from 'expo-constants'
 import FirebaseHelper from '../helper/FireBaseHelper'
-import App from '../helper/refreshHelper'
 // import DeviceInfo from 'react-native-device-info';
 // import {getUniqueId} from 'react-native-device-info'
 
@@ -77,8 +76,16 @@ async function getImage(imageNameList){
 
 function CardList(props){
 
-  return props.itemList.map((data, index)=>{
-    return <CardItem object={data} key={index}/>
+  return props.itemList.map((keyItem, index)=>{
+
+    return (
+      <TouchableOpacity key={index} onPress={()=> props.navProp.navigation.navigate("Booking",{
+        productCode: keyItem.data.product_code
+      })}>
+        <CardItem object={keyItem}/>
+      </TouchableOpacity>
+    )
+
   })
 
 }
@@ -88,40 +95,40 @@ function CardItem(props){
   var param = props.object;
 
   return (
-    <Card>
-      <View style={{flexDirection: 'row'}} key={props.index} >
-        <View style={{flex: 0.3, margin: 3, backgroundColor: '#ffffff'}}>
-          <Image 
-            source={{uri : param.imageUrl}} 
-            style={
-              {
-                width: '100%',
-                height: '100%',
+      <Card>
+        <View style={{flexDirection: 'row'}} key={props.index} >
+          <View style={{flex: 0.3, margin: 3, backgroundColor: '#ffffff'}}>
+            <Image 
+              source={{uri : param.imageUrl}} 
+              style={
+                {
+                  width: '100%',
+                  height: '100%',
+                }
               }
-            }
-            resizeMode='contain'
-          />
+              resizeMode='contain'
+            />
+          </View>
+          <View style={{flex: 1, flexDirection: 'column', padding: 5}}>
+              <View>
+                <Text style={{fontFamily: 'kanit-bold', fontSize: 15}}>
+                  {param.data.product_name}
+                </Text>
+              </View>
+              <View style={{backgroundColor: '#ffffff', borderRadius: 10, padding: 5}}>
+                <Text>
+                  Point : {param.data.all_point}
+                </Text>
+                <Text>
+                  Stamp : {param.data.m_stamp}
+                </Text>
+                <Text>
+                  Cash : {param.data.cash}
+                </Text>
+              </View>
+          </View>
         </View>
-        <View style={{flex: 1, flexDirection: 'column', padding: 5}}>
-            <View>
-              <Text style={{fontFamily: 'kanit-bold', fontSize: 15}}>
-                {param.data.product_name}
-              </Text>
-            </View>
-            <View style={{backgroundColor: '#ffffff', borderRadius: 10, padding: 5}}>
-              <Text>
-                Point : {param.data.all_point}
-              </Text>
-              <Text>
-                Stamp : {param.data.m_stamp}
-              </Text>
-              <Text>
-                Cash : {param.data.cash}
-              </Text>
-            </View>
-        </View>
-      </View>
-    </Card>
+      </Card>
   )
 
 }
@@ -184,9 +191,9 @@ export default class ItemScreen extends React.Component {
               refreshControl={
                 <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} colors={['blue']} />
               }
-            >
-              <CardList itemList={this.state.imageList} />
-            </ScrollView>
+          >
+            <CardList itemList={this.state.imageList} navProp={this.props}/>
+          </ScrollView>
         </View>
       );
     }

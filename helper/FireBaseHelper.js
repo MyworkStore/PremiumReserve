@@ -1,6 +1,5 @@
 import * as firebase from 'firebase';
 import React from 'react';
-import QueryString from 'qs';
 
 const firebaseConfig = {
     apiKey: "AIzaSyB6rhiakZ8JzVhAm9EXbG42hcpDEtuEg5E",
