@@ -78,11 +78,8 @@ export default class OrderHistoryCard extends Component {
             orderNo: this.props.orderNo,
             urlImage:'https://firebasestorage.googleapis.com/v0/b/allpremium-8a053.appspot.com/o/itemList%2F9000451.PNG?alt=media&token=73965efe-8e3a-4a36-9dc9-40d26b998130'
         })
-
        // console.log('##########'+this.state.text)
-
     }
-
     render() {
         return (
            
