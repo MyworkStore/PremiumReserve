@@ -38,9 +38,7 @@ class FirebaseHelper extends React.Component {
 
         const baseRef = this.fireBase.ref(path);
 
-        if( orderByPath == undefined || orderByPath == '' ){
-            baseRef.orderByKey();
-        }else{
+        if( orderByPath != undefined || orderByPath != '' ){
             baseRef.orderByChild(orderByPath);
         }
 

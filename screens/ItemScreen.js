@@ -3,29 +3,28 @@ import React from 'react';
 // import * as firebase from 'firebase';
 import {
   Image,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   ActivityIndicator,
   View,
   Alert,
-  NativeModules
+  RefreshControl
 } from 'react-native';
 
 import Images from '../helper/imageHelper'
 import Card from '../components/Card'
 import Constants from 'expo-constants'
 import FirebaseHelper from '../helper/FireBaseHelper'
+import App from '../helper/refreshHelper'
 // import DeviceInfo from 'react-native-device-info';
 // import {getUniqueId} from 'react-native-device-info'
 
-async function imageLoader(table){
+async function imageLoader(table, orderBy){
   var imageNameList = [];
   var imageList = [];
   
-  imageNameList = await getImageName(table);
+  imageNameList = await getImageName(table, orderBy);
 
   if( imageNameList.length > 0 ){
 
@@ -39,11 +38,11 @@ async function imageLoader(table){
 
 }
 
-async function getImageName(table){
+async function getImageName(table, orderBy){
 
   const result = [];
 
-  return await FirebaseHelper.queryData(table,'').then((data) => {
+  return await FirebaseHelper.queryData(table, orderBy).then((data) => {
     data.forEach(function(item, index){
       result.push(item);
     })
@@ -133,6 +132,7 @@ export default class ItemScreen extends React.Component {
     super(props);
     this.state = {
       showLoader: true,
+      refreshing: false,
       imageList: [],
       imageTest: ""
     };
@@ -140,19 +140,13 @@ export default class ItemScreen extends React.Component {
   }
 
   async componentWillMount() {
+    await this.fetchData();
+  }
 
-    // console.log("Device token : " + NativeModules.PlatformConstants.serial)
-    console.log("Expo device : " + Constants.deviceId)
-    // console.log("Device id : " + Platform.deviceId)
-    // console.log("Phone number : " + DeviceInfo.getPhoneNumber())
-
+  async fetchData() {
     var imageStoreList = [];
 
-    this.setState({
-      showLoader: true
-    })
-
-    imageStoreList = await imageLoader("tb_product_master");
+    imageStoreList = await imageLoader("tb_product_master", "product_code");
 
     setTimeout(() => {
 
@@ -166,7 +160,16 @@ export default class ItemScreen extends React.Component {
       }
 
     }, 1000);
+  }
 
+  _onRefresh() {
+    this.setState({
+      showLoader: false,
+      refreshing: true
+    });
+    this.fetchData().then(() => {
+      this.setState({refreshing: false});
+    });
   }
 
   render(){
@@ -176,9 +179,14 @@ export default class ItemScreen extends React.Component {
     }else{
       return (
         <View style={styles.container}>
-          <ScrollView>
-            <CardList itemList={this.state.imageList} />
-          </ScrollView>
+          <ScrollView
+              showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} colors={['blue']} />
+              }
+            >
+              <CardList itemList={this.state.imageList} />
+            </ScrollView>
         </View>
       );
     }
