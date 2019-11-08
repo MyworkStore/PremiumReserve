@@ -45,6 +45,7 @@ export default class BookingScreen extends React.Component {
   clearText() {
     this.refs.itemName.clear();
     this.refs.itemCount.clear();
+    this.refs.param.clear();
   }
 
   // onBlur(element) {
@@ -78,16 +79,9 @@ export default class BookingScreen extends React.Component {
             ref={'itemName'}
             placeholder=""
             style={{ height: 40, borderColor: this.state.inputBorder, borderWidth: 1, padding: 5 }}
-            // onFocus={ () => this.onFocus(this) }
-            // onBlur={ () => this.onBlur()}
             autoCompleteType={'off'}
             selectTextOnFocus={true}
             defaultValue={this.state.itemName}
-            // autoFocus={true}
-            // autoCapitalize={'characters'} //all characters.
-            // autoCapitalize={'words'} //first letter of each word.
-            // autoCapitalize={'sentences'} //first letter of each sentence (default).
-            // autoCapitalize={'none'} //don't auto capitalize anything.
           />
           <Text style={styles.labelText}>
             จำนวน :
@@ -102,6 +96,17 @@ export default class BookingScreen extends React.Component {
             keyboardType={'numeric'}
             selectTextOnFocus={true}
             // value={}
+          />
+          <Text>
+            Param จากหน้าอื่น
+          </Text>
+          <TextInput
+            ref={'param'}
+            placeholder=""
+            style={{ height: 40, borderColor: this.state.inputBorder, borderWidth: 1, padding: 5 }}
+            autoCompleteType={'off'}
+            selectTextOnFocus={false}
+            defaultValue={JSON.stringify(this.props.navigation.getParam('productCode', 'NO PARAM'))}
           />
           <View style={styles.buttonPanel}>
             <View style={styles.actionButton}>
