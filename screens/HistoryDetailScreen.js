@@ -12,10 +12,11 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import  OrderHistoryCard  from '../components/OrderHistoryCard';
-
+//import  UploadImage  from '../components/UploadImage';
 function DispalyOrderStatusDetail(props){
     switch(props.param.status) {
         case "U":
+        case "R":
           // code block
           return ( 
             <View style={styles.container}>  
@@ -48,20 +49,7 @@ function DispalyOrderStatusDetail(props){
             </View>            
          </View>
         );
-          break;
-        case "R":
-        return (
-            <View style={styles.container}>
-            <View>
-            <Image
-                 resizeMode='contain'
-                 style={{ width: '100%', height: '100%', backgroundColor: 'transparent' }}
-                 source={{ uri: props.param.urlImage }}
-             ></Image>
-            </View>            
-         </View>
-        );
-          break;
+          break;       
         case "C":
         return (
             <View style={styles.container}>
