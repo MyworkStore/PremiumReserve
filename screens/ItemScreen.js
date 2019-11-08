@@ -194,8 +194,8 @@ ItemScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight,
-    marginBottom: 50,
+    paddingTop: Constants.statusBarHeight,
+    paddingBottom: 10,
     paddingHorizontal: 10,
     flexDirection: 'column',
   },

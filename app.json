@@ -1,20 +1,18 @@
 {
   "expo": {
-    "name": "PremiumReserve",
-    "slug": "PremiumReserve",
+    "name": "AllPremium",
+    "slug": "AllPremium",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
-      "ios",
-      "android",
-      "web"
+      "android"
     ],
     "version": "1.0.0",
-    "orientation": "default",
+    "orientation": "portrait",
     "icon": "./assets/images/splash_400x400.png",
     "splash": {
-      "image": "./assets/images/splash_400x400.png",
-      "resizeMode": "contain",
+      "image": "./assets/images/splash-image.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -23,12 +21,11 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "bundleIdentifier": "com.gosoft.PremiumReserve",
-      "supportsTablet": true
-    },
     "android": {
-      "package": "com.gosoft.PremiumReserve"
+      "package": "com.gosoft.AllPremium",
+      "permissions": [
+        "CAMERA"
+      ]
     }
   }
 }
