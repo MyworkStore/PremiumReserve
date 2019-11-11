@@ -1,0 +1,10 @@
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 26260,
+  "expoServerNgrokUrl": "https://nv-jkq.nonnomal.premiumreserve.exp.direct",
+  "packagerNgrokUrl": "https://packager.nv-jkq.nonnomal.premiumreserve.exp.direct",
+  "ngrokPid": 26356,
+  "webpackServerPort": null
+}
