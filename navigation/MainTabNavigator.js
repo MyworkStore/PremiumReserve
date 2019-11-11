@@ -10,6 +10,7 @@ import HistoryScreen from '../screens/HistoryScreen';
 import BookingScreen from '../screens/BookingScreen';
 import ItemScreen from '../screens/ItemScreen';
 import HistoryDetailScreen from '../screens/HistoryDetailScreen';
+import PushNotificationScreen from '../screens//PushNotificationScreen';
 
 import Images from '../helper/imageHelper'
 import { tsExportAssignment } from '@babel/types';
@@ -106,11 +107,40 @@ HistoryStack.navigationOptions = ({ navigation }) => ({
 HistoryStack.path = '';
 
 
+//=============== PUSH NOTIFICATION ===================
+const NotiStack = createStackNavigator(
+  {
+    NotiHome: PushNotificationScreen,
+  },
+  config
+);
+
+NotiStack.navigationOptions = ({ navigation }) => ({
+  tabBarLabel: 'Noti',
+  tabBarIcon: ({ focused, tintColor }) => (
+    <TabBarIcon
+      focused={focused}
+      isImage={false}
+      name={'md-notifications'}
+      color={tintColor}
+    />
+  ),
+  tabBarOptions: {
+    showLabel: true,
+    activeTintColor: '#ff0000',
+    //inactiveTintColor: "red"
+  },
+  //tabBarVisible: navigation.state.index == 0
+})
+
+NotiStack.path = '';
+
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   BookingStack,
-  HistoryStack
+  HistoryStack,
+  NotiStack
 });
 
 tabNavigator.path = '';
