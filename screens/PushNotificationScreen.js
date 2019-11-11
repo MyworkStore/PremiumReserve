@@ -19,16 +19,13 @@ export default class PushNotificationScreen extends React.Component{
     constructor (props) {
         super(props);
         this.state = {
+          token: "",
           message: "",
         };
     
       }
 
-    sendMessage = async() => {
-        Keyboard.dismiss()
-        console.log("=========== State ==========")
-        console.log("Message : " + this.state.message)
-
+    getToken = async() => {
         const { status: existingStatus } = await Permissions.getAsync(
             Permissions.NOTIFICATIONS
           );
@@ -45,21 +42,39 @@ export default class PushNotificationScreen extends React.Component{
         
           let token = await Notifications.getExpoPushTokenAsync();
 
-          console.log("Expo Token : " + token)
+          this.setState({
+              token: token
+          })
 
           const param = {
-              token: token
+              token: this.state.token
           }
 
-          FirebaseHelper.update('/userNoti/zxcvb123', param)
+          FirebaseHelper.update('/userNoti/hok', param)
 
+    }
+
+    sendMessage = () => {
+        Keyboard.dismiss()
     }
 
     render(){
         return (
             <View style={styles.container}>
                 <ScrollView keyboardShouldPersistTaps='handled'>
-                    <TextInput 
+                    <View>
+                        <TouchableOpacity style={{backgroundColor: '#3385ff', marginTop: 10, height: 50, alignItems: 'center', justifyContent: 'center'}}
+                            onPress={this.getToken}
+                        >
+                            <Text style={{textAlign: 'center'}}>
+                                กดเพื่อรับ token
+                            </Text>
+                        </TouchableOpacity>
+                        <Text>
+                            {this.state.token}
+                        </Text>
+                    </View>
+                    {/* <TextInput 
                         style={{borderColor: '#000000', borderWidth: 1, padding: 10}} 
                         placeholder='ใส่ข้อความ Noti'
                         onChangeText={(text)=>{this.setState({message: text})}}
@@ -70,7 +85,7 @@ export default class PushNotificationScreen extends React.Component{
                         <Text style={{textAlign: 'center'}}>
                             กดเพื่อส่งข้อความ
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </ScrollView>
             </View>
         )
