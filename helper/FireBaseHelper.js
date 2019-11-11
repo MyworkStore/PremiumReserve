@@ -95,6 +95,12 @@ class FirebaseHelper extends React.Component {
 
     }
 
+    update(path, object){
+        firebase.database().ref(path).set(object).catch(error=>{
+           console.log("Erro message : " + error)
+        })
+    }
+
 }
 
 const helper = new FirebaseHelper();
