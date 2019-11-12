@@ -77,7 +77,7 @@ export default class PushNotificationScreen extends React.Component{
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                to: 'ExponentPushToken[47dZcMOyoO_tyD97iyunKN]',
+                to: this.state.token,
                 sound: 'default',
                 title: 'ทดสอบ Notification',
                 body: this.state.message
