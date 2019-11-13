@@ -58,7 +58,7 @@ export default class BookingScreen extends React.Component {
         <View style={styles.imagePanel}>
           <View style={styles.imageGrid}>
             <Image 
-              source={Images.productTest} 
+              source={Images.sevenLogo} 
               style={
                 {
                   width: '100%',

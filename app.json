@@ -9,10 +9,10 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon-app.jpg",
+    "icon": "./assets/images/all-icon.PNG",
     "splash": {
-      "image": "./assets/images/splash-app.jpg",
-      "resizeMode": "contain",
+      "image": "./assets/images/all-splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -24,7 +24,8 @@
     "android": {
       "package": "com.gosoft.AllPremium",
       "permissions": [
-        "CAMERA"
+        "CAMERA",
+        "MANAGE_DOCUMENTS"
       ]
     }
   }
