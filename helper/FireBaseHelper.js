@@ -31,15 +31,11 @@ class FirebaseHelper extends React.Component {
 
     }
 
-    queryData = async(path, orderByPath) => {
+    queryData = async(path) => {
 
         const result = [];
 
         const baseRef = this.fireBase.ref(path);
-
-        if( orderByPath != undefined || orderByPath != '' ){
-            baseRef.orderByChild(orderByPath);
-        }
 
         return baseRef.once('value').then(snapshot => {
 

@@ -1,9 +1,8 @@
 {
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 14156,
-  "expoServerNgrokUrl": "https://ny-htq.nonnomal.premiumreserve.exp.direct",
-  "packagerNgrokUrl": "https://packager.ny-htq.nonnomal.premiumreserve.exp.direct",
-  "ngrokPid": 22552,
-  "devToolsPort": 19002
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": "https://yd-ah5.nonnomal.premiumreserve.exp.direct",
+  "packagerNgrokUrl": "https://packager.yd-ah5.nonnomal.premiumreserve.exp.direct",
+  "ngrokPid": 26716
 }
