@@ -21,11 +21,11 @@ import FirebaseHelper from '../helper/FireBaseHelper'
 // import DeviceInfo from 'react-native-device-info';
 // import {getUniqueId} from 'react-native-device-info'
 
-async function imageLoader(table, orderBy){
+async function imageLoader(table){
   var imageNameList = [];
   var imageList = [];
   
-  imageNameList = await getImageName(table, orderBy);
+  imageNameList = await getImageName(table);
 
   if( imageNameList.length > 0 ){
 
@@ -39,11 +39,11 @@ async function imageLoader(table, orderBy){
 
 }
 
-async function getImageName(table, orderBy){
+async function getImageName(table){
 
   const result = [];
 
-  return await FirebaseHelper.queryData(table, orderBy).then((data) => {
+  return await FirebaseHelper.queryData(table).then((data) => {
     data.forEach(function(item, index){
       result.push(item);
     })
@@ -155,7 +155,7 @@ export default class ItemScreen extends React.Component {
   async fetchData() {
     var imageStoreList = [];
 
-    imageStoreList = await imageLoader("tb_product_master", "product_code");
+    imageStoreList = await imageLoader("tb_product_master");
 
     setTimeout(() => {
 
