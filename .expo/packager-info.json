@@ -2,8 +2,8 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://ua-xnq.nonnomal.premiumreserve.exp.direct",
   "packagerNgrokUrl": "https://packager.ua-xnq.nonnomal.premiumreserve.exp.direct",
-  "ngrokPid": 17740,
+  "ngrokPid": 16456,
   "devToolsPort": 19002,
   "packagerPort": 19001,
-  "packagerPid": 21408
+  "packagerPid": 22768
 }
