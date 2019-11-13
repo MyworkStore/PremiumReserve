@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     
     cardContainer: {
         flex: 1,
-        height: 100,
+        height: '100%',
         width: '100%',
         //borderWidth: 1,
         //borderColor: '#8c8c8c',

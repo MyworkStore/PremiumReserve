@@ -10,7 +10,9 @@ import {
   View,
   Alert,
   RefreshControl,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback 
 } from 'react-native';
 
 import Card from '../components/Card'
@@ -79,11 +81,11 @@ function CardList(props){
   return props.itemList.map((keyItem, index)=>{
 
     return (
-      <TouchableOpacity key={index} onPress={()=> props.navProp.navigation.navigate("Booking",{
+      <TouchableOpacity  key={index} onPress={()=> props.navProp.navigation.navigate("Booking",{
         productCode: keyItem.data.product_code
-      })}>
+      })} activeOpacity={1}>
         <CardItem object={keyItem}/>
-      </TouchableOpacity>
+      </TouchableOpacity >
     )
 
   })
