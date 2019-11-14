@@ -8,8 +8,10 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Lookup from '../helper/Lookup';
+import FirebaseHelper from '../helper/FireBaseHelper';
+//import console = require('console');
+import Moment from 'moment';
 
-//import { readUserData } from '../function/firebaseHelper'
 function DispalyOrderStatus(props){
 
     switch(props.param.status) {
@@ -57,6 +59,7 @@ export default class OrderHistoryCard extends Component {
 
     constructor(props) {
         super(props);
+        Moment.locale('en');
 
         this.state = {
             text: "",
@@ -68,31 +71,76 @@ export default class OrderHistoryCard extends Component {
         }          
     }
     getProductInfo(table) {
-        const result = [];
-        FirebaseHelper.queryData(table)
-        .then(data=>{
-            this.setState({              
-                productName:data.product_name,
-                pic:data.pic,                               
-              });
+        //const result = [];
+        //console.log(" ###### IN getProductInfo##### ");
+       // console.log(table);
+        FirebaseHelper.queryDataObj(table)
+        .then(data=>{             
+              return new Promise(resolve => { 
+                resolve(
+                    this.setState({              
+                        productName:data.product_name,
+                        pic:data.pic                              
+                      })                
+                    );
+                    //console.log(" ###### IN getProductInfo##### ");     
+                    //console.log(data);
+                 //console.log(data.pic);
+                 resolve(
+                    FirebaseHelper.queryFileStorage("/itemList/"+data.pic ).then((image) => {
+                        this.setState({               
+                            urlImage:image
+                        });
+                    })
+                 );
+             });
         }           
-        )          
+        );          
       }
-    componentDidMount(){
-        console.log("#################INPUT VIEW###########");
-        console.log('tb_product_master/'+this.props.orderDetail.product_code);
-        this.getProductInfo('tb_product_master/'+this.props.orderDetail.product_code);
-        this.setState({
+
+     componentDidMount(){
+        //console.log("#################INPUT VIEW###########");
+        //console.log('tb_product_master/');
+        //console.log("tb_product_master/"+this.props.orderDetail.product_code);
+        //console.log(this.props.orderDetail.order_no);
+        //console.log(this.props.orderDetail);
+                
+         this.setState({
             text: Lookup[this.props.orderDetail.order_status],
             status :this.props.orderDetail.order_status,
             orderNo: this.props.orderDetail.order_no,
-            urlImage:'https://firebasestorage.googleapis.com/v0/b/allpremium-8a053.appspot.com/o/itemList%2F9000451.PNG?alt=media&token=73965efe-8e3a-4a36-9dc9-40d26b998130'
-        })
+            //urlImage:'https://firebasestorage.googleapis.com/v0/b/allpremium-8a053.appspot.com/o/itemList%2F9000451.PNG?alt=media&token=73965efe-8e3a-4a36-9dc9-40d26b998130'
+        });
+         this.getProductInfo("tb_product_master/"+this.props.orderDetail.product_code);
+        
+      
+
        // console.log('##########'+this.state.text)
+
+    }
+    componentWillReceiveProps(nextProps){
+        //console.log("#################INPUT VIEW###########");
+        //console.log('tb_product_master/');
+        //console.log("tb_product_master/"+this.props.orderDetail.product_code);
+        //console.log(this.props.orderDetail.order_no);
+        //console.log(this.props.orderDetail);
+                
+         this.setState({
+            text: Lookup[nextProps.orderDetail.order_status],
+            status :nextProps.orderDetail.order_status,
+            orderNo: nextProps.orderDetail.order_no,
+            //urlImage:'https://firebasestorage.googleapis.com/v0/b/allpremium-8a053.appspot.com/o/itemList%2F9000451.PNG?alt=media&token=73965efe-8e3a-4a36-9dc9-40d26b998130'
+        });
+         this.getProductInfo("tb_product_master/"+nextProps.orderDetail.product_code);
+        
+      
+
+       // console.log('##########'+this.state.text)
+
     }
     render() {
-        return (
-           
+        
+        return (           
                 <View style={styles.container} >
                     <View style={styles.iconLayout}>
                     <Image  resizeMode='contain'
@@ -103,17 +151,18 @@ export default class OrderHistoryCard extends Component {
                     <View style={styles.contentLayout}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <DispalyOrderStatus param={this.state} /> 
-                            <Text style={{  fontSize: 10, flex: 1, textAlign: 'right' }}>11/6/2019 2:02:55</Text>
+                            <Text style={{  fontSize: 10, flex: 1, textAlign: 'right' }}>{Moment(this.props.orderDetail.booking_timestamp).format('DD/MM/YYYY HH:MM:SS')}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row', marginTop: 5, padding: 2, borderRadius: 5 }}>
                             <View style={{ flex: 1, backgroundColor: 'white', padding: 8, borderRadius: 5 }}>
                                 <Text style={styles.fontDetailI}>{this.state.productName} </Text>
                                 <Text style={styles.fontDetailII}>Order # {this.state.orderNo}</Text>
+                                <Text style={styles.fontDetailII}>จำนวน # {this.props.orderDetail.booking_qty} PCS.  </Text>
+                                <Text style={styles.fontDetailII}>แลกด้วย # {(this.props.orderDetail.booking_by=='A')?"All-Member":"M-Stamp"} {this.props.orderDetail.booking_value} {(this.props.orderDetail.booking_by=='A')?"คะแนน":"บาท"} </Text>
                             </View>
                         </View>
                     </View>
                 </View>
-            
         );
     }
 
@@ -124,7 +173,7 @@ export default class OrderHistoryCard extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        height: 105,
+        height: 115,
         flexDirection: 'row',
         marginTop: 10,
         marginLeft: 10,
