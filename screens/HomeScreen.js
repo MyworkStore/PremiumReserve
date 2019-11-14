@@ -22,6 +22,17 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {text: ''};
+    this.checkUser();
+  }
+
+ 
+  checkUser = async () => {
+    AsyncStorage.getItem('userid').then(data=>{
+      if (data !== null && data !== '' ) {
+        console.log("Has Local UserId Link to Home2");
+        this.props.navigation.navigate("Home2");
+      } 
+    });      
   }
 
   render() {
@@ -77,11 +88,10 @@ export default class HomeScreen extends React.Component {
             />
           </View>
           <Separator />
-          <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+          <View style={{flex:1,alignItems:'center',justifyContent:'center',backgroundColor:'#ffffff'}}>
             <Text style={{fontSize: 15, color: '#A97555'}}>แอปพลิเคชั่นนี้อยู่ในช่วงทดสอบ เพื่อปรับปรุงการจองสินค้า Premium</Text>
           </View>
           <Separator />
-
         </View>
       </ImageBackground>
     );
@@ -97,15 +107,14 @@ export default class HomeScreen extends React.Component {
         ]
       )
     } else {
-      await AsyncStorage.removeItem('userid');
       await AsyncStorage.setItem('userid', this.state.text);
       const value = await AsyncStorage.getItem('userid');
-
       if (value !== null) {
-        console.log(value);
+        console.log('User '+value+' Login to Home2');
+        this.props.navigation.navigate("Home2");
       }
       
-      this.props.navigation.navigate("Home2");
+      
     }
   }
   
@@ -121,7 +130,7 @@ export default class HomeScreen extends React.Component {
 HomeScreen.navigationOptions =  {
   title: 'ALL Premium',
   headerTitleStyle: { flex: 1, textAlign: 'center'}
-  // header: null,
+  //header: null,
 };
 
 const styles = StyleSheet.create({

@@ -7,10 +7,10 @@ import {
   TouchableHighlight,
   View,
   Button,
-  ImageBackground,
-  Dimensions
+  ImageBackground,AsyncStorage,
+  Dimensions,
 } from 'react-native';
-import Images from '../helper/imageHelper'
+import Images from '../helper/imageHelper';
 import Constants from 'expo-constants';
 
 function Separator(){
@@ -18,7 +18,22 @@ function Separator(){
 }
 
 export default class Home2Screen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {userid: ''};
+    this.loadUserId();
+  }
 
+  async loadUserId() {
+    try {
+        const userId = await AsyncStorage.getItem('userid');
+        this.setState({userid: userId});
+        console.log('User ID : '+userId);
+    }
+    catch (error) {
+        console.log('Error loadUserId()');
+    }
+}
   render() {
     
     return (
@@ -28,7 +43,15 @@ export default class Home2Screen extends React.Component {
       >
         <View style={styles.container}>
             <Separator />
-            <View style={{flex:1}}></View>
+            <View style={{flex:1,alignItems:'flex-end',justifyContent:'center'}}>
+            <Text style={{fontSize: 12, color: '#A97555',backgroundColor:'#ffffff'}}>{'หมายเลขโทรศัพท์ : '+this.state.userid+'  '}</Text>
+            <Button
+              title="LOG OUT"
+              onPress={this.naviToHome}
+              color="#757882"
+            />
+
+            </View>
             <Separator />
             <View style={{flex:2,alignItems:'center',justifyContent:'center'}}>
             <TouchableHighlight onPress={() =>  this.props.navigation.navigate("History")}>
@@ -50,7 +73,7 @@ export default class Home2Screen extends React.Component {
             <Separator />
             <View style={{flex:1}}></View>
             <Separator />
-            <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+            <View style={{flex:1,alignItems:'center',justifyContent:'center',backgroundColor:'#ffffff'}}>
               <Text style={{fontSize: 15, color: '#A97555'}}>แอปพลิเคชั่นนี้อยู่ในช่วงทดสอบ เพื่อปรับปรุงการจองสินค้า Premium</Text>
             </View>
             <Separator />
@@ -58,7 +81,13 @@ export default class Home2Screen extends React.Component {
       </ImageBackground>
     );
   }
+  naviToHome = async () => {
+    await AsyncStorage.removeItem('userid');
+    this.props.navigation.navigate("Home");
+  }
 }
+
+
 
 Home2Screen.navigationOptions =  {
   title: 'ALL Premium',
@@ -78,5 +107,12 @@ const styles = StyleSheet.create({
   },
   ImageButtonStyle: {
     width: imageWidth, height: imageHeight, resizeMode: 'stretch',
+  },  
+  actionMenuView: {
+    flexDirection: 'row-reverse'
+  },
+  actionMenu: {
+    marginEnd: 5,
+    // marginVertical: 5
   },
 });
