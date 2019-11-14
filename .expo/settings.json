@@ -1,7 +1,8 @@
 {
   "urlRandomness": "zg-nd8",
-  "hostType": "localhost",
+  "hostType": "tunnel",
   "lanType": "ip",
-  "dev": true,
-  "minify": false
+  "dev": false,
+  "minify": true,
+  "https": false
 }

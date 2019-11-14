@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 
 //Page
 import HomeScreen from '../screens/HomeScreen';
+import Home2Screen from '../screens/Home2Screen';
 import HistoryScreen from '../screens/HistoryScreen';
 import BookingScreen from '../screens/BookingScreen';
 import ItemScreen from '../screens/ItemScreen';
@@ -21,7 +22,8 @@ const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
     Item: ItemScreen,
-    History: HistoryScreen
+    History: HistoryScreen,
+    Home2: Home2Screen
   },
   config
 );
@@ -41,7 +43,7 @@ HomeStack.navigationOptions = ({ navigation }) => ({
     activeTintColor: '#000000',
     inactiveTintColor: "red"
   },
-  tabBarVisible: navigation.state.index == 0
+  tabBarVisible: navigation.state.index > 10
 })
 
 HomeStack.path = '';
@@ -68,7 +70,7 @@ BookingStack.navigationOptions = ({ navigation }) => ({
     activeTintColor: "#ff0000",
     inactiveTintColor: "black"
   },
-  tabBarVisible: navigation.state.index == 0
+  tabBarVisible: navigation.state.index > 10
 })
 
 BookingStack.path = '';
