@@ -50,6 +50,48 @@ class FirebaseHelper extends React.Component {
         })
 
     }
+ // tb_
+ //key  
+ writeUserData(node,key,obj){
+    return (firebase.database().ref(node).child(key).update(obj));
+}
+
+  updateData(node, key, data) {
+        console.log(node);
+        console.log(key);
+        console.log(data);
+        //firebase.database().ref(node).child(key).update(data)
+       return new Promise(resolve => {
+           resolve(firebase.database().ref(node).child(key).update(data))
+         })
+        }
+    
+  listenerData(node, callback) {
+        return firebase.database().ref(node).on('value', snap => callback(snap))
+    }
+    queryDataObj = async(path) => {
+        
+        let result='' ;
+        const baseRef = this.fireBase.ref(path);
+        await baseRef.once('value').then(snapshot => {
+           // console.log("XXXXXXXXXXXXXXXXXXXXXXXX"); 
+          //  console.log(snapshot.val());           
+            //Object.assign(result, snapshot.val().product_code) 
+            result     =  snapshot.val();  
+           // console.log("1YYYYYYYYYYYYYYYYYYYYYYYYYY"); 
+          //   console.log(result);
+           //  console.log("2YYYYYYYYYYYYYYYYYYYYYYYYYY");
+        });
+        //console.log("3YYYYYYYYYYYYYYYYYYYYYYYYYY"); 
+        //console.log(result);
+        //console.log("4YYYYYYYYYYYYYYYYYYYYYYYYYY"); 
+        return  result;
+    
+    }
+    queryDataObjII = (path) => {
+        //alert('xxxxx');
+        return  this.fireBase.ref(path).once('value')
+    }
 
     queryFileStorage = async(path) => {
 
@@ -89,6 +131,12 @@ class FirebaseHelper extends React.Component {
 
         })
 
+    }
+      async uploadImageAllmem(key, uri) {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        var ref = firebase.storage().ref().child("allmembarcode/" + key);
+        return Promise.resolve(ref.put(blob))
     }
 
     update(path, object){
