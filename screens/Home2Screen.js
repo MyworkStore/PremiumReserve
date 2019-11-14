@@ -50,7 +50,8 @@ export default class Home2Screen extends React.Component {
             <Separator />
             <View style={{flex:1}}></View>
             <Separator />
-            <View style={{flex:1}}>
+            <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+              <Text style={{fontSize: 15, color: '#A97555'}}>แอปพลิเคชั่นนี้อยู่ในช่วงทดสอบ เพื่อปรับปรุงการจองสินค้า Premium</Text>
             </View>
             <Separator />
         </View>

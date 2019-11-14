@@ -64,13 +64,23 @@ export default class HomeScreen extends React.Component {
           <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
             <Button
               title="คู่มือการใช้งาน"
-              onPress={this._handleOpenWithWebBrowser}
+              onPress={this._handleOpenWithWebBrowserManual}
               color="#4d79ff"
             />
           </View>
           <Separator />
-          <View style={{flex:2}}>
+          <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+            <Button
+              title="เงื่อนไขการให้บริการ"
+              onPress={this._handleOpenWithWebBrowserPrivacy}
+              color="#4d79ff"
+            />
           </View>
+          <Separator />
+          <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+            <Text style={{fontSize: 15, color: '#A97555'}}>แอปพลิเคชั่นนี้อยู่ในช่วงทดสอบ เพื่อปรับปรุงการจองสินค้า Premium</Text>
+          </View>
+          <Separator />
 
         </View>
       </ImageBackground>
@@ -99,7 +109,11 @@ export default class HomeScreen extends React.Component {
     }
   }
   
-  _handleOpenWithWebBrowser = () => {
+  _handleOpenWithWebBrowserManual = () => {
+    WebBrowser.openBrowserAsync('http://gahp.net/wp-content/uploads/2017/09/sample.pdf');
+  }
+
+  _handleOpenWithWebBrowserPrivacy = () => {
     WebBrowser.openBrowserAsync('http://gahp.net/wp-content/uploads/2017/09/sample.pdf');
   }
 };
