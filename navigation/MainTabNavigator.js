@@ -10,7 +10,7 @@ import HistoryScreen from '../screens/HistoryScreen';
 import BookingScreen from '../screens/BookingScreen';
 import ItemScreen from '../screens/ItemScreen';
 import HistoryDetailScreen from '../screens/HistoryDetailScreen';
-import PushNotificationScreen from '../screens//PushNotificationScreen';
+import Home2Screen from '../screens/Home2Screen'
 
 import Images from '../helper/imageHelper'
 import { tsExportAssignment } from '@babel/types';
@@ -23,9 +23,6 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    Item: ItemScreen,
-    History: HistoryScreen,
-    HistoryDetail: HistoryDetailScreen
   },
   config
 );
@@ -45,67 +42,42 @@ HomeStack.navigationOptions = ({ navigation }) => ({
     activeTintColor: '#ff0000',
     //inactiveTintColor: "red"
   },
-  //tabBarVisible: navigation.state.index == 0
+  tabBarVisible: false
 })
 
 HomeStack.path = '';
 
-const BookingStack = createStackNavigator(
+const AppStack = createStackNavigator(
   {
+    Home2: Home2Screen,
+    Item: ItemScreen,
     Booking: BookingScreen,
+    History: HistoryScreen,
+    HistoryDetail: HistoryDetailScreen,   
+   
   },
   config
 );
 
-BookingStack.navigationOptions = ({ navigation }) => ({
-  tabBarLabel: 'Booking',
+AppStack.navigationOptions = ({ navigation }) => ({
+  tabBarLabel: 'Home',
   tabBarIcon: ({ focused, tintColor }) => (
     <TabBarIcon
       focused={focused}
       isImage={false}
-      name={'ios-book'}
+      name={'ios-home'}
       color={tintColor}
     />
   ),
   tabBarOptions: {
     showLabel: true,
-    activeTintColor: "#ff0000",
-    //inactiveTintColor: "black"
-  },
-  tabBarVisible: navigation.state.index == 0
-})
-
-BookingStack.path = '';
-
-//History
-const HistoryStack = createStackNavigator(
-  {      
-    History: HistoryScreen,
-    HistoryDetail: HistoryDetailScreen
-  },
-  config
-);
-
-HistoryStack.navigationOptions = ({ navigation }) => ({
-  tabBarLabel: 'History',
-  tabBarIcon: ({ focused, tintColor }) => (
-    <TabBarIcon
-      focused={focused}
-      isImage={false}
-      name={'ios-bookmarks'}
-      color={tintColor}
-    />
-  ),
-  tabBarOptions: {
-    showLabel: false,
     activeTintColor: '#ff0000',
     //inactiveTintColor: "red"
   },
-  //tabBarVisible: navigation.state.index == 0
+  tabBarVisible: false
 })
 
-HistoryStack.path = '';
-
+AppStack.path = '';
 
 //=============== PUSH NOTIFICATION ===================
 const NotiStack = createStackNavigator(
@@ -138,9 +110,7 @@ NotiStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  BookingStack,
-  HistoryStack,
-  NotiStack
+  AppStack,
 });
 
 tabNavigator.path = '';
