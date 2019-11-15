@@ -79,35 +79,6 @@ AppStack.navigationOptions = ({ navigation }) => ({
 
 AppStack.path = '';
 
-//=============== PUSH NOTIFICATION ===================
-const NotiStack = createStackNavigator(
-  {
-    NotiHome: PushNotificationScreen,
-  },
-  config
-);
-
-NotiStack.navigationOptions = ({ navigation }) => ({
-  tabBarLabel: 'Noti',
-  tabBarIcon: ({ focused, tintColor }) => (
-    <TabBarIcon
-      focused={focused}
-      isImage={false}
-      name={'md-notifications'}
-      color={tintColor}
-    />
-  ),
-  tabBarOptions: {
-    showLabel: true,
-    activeTintColor: '#ff0000',
-    //inactiveTintColor: "red"
-  },
-  //tabBarVisible: navigation.state.index == 0
-})
-
-NotiStack.path = '';
-
-
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   AppStack,
