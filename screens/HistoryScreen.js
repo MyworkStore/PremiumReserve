@@ -29,7 +29,7 @@ export default class HistoryScreen extends React.Component {
       orderDtl: [],
       userid:'',
     };
-    AsyncStorage.setItem('userid', '0635162877');
+    //AsyncStorage.setItem('userid', '0635162877');
     
     /*let order = {
       booking_timestamp: 0,
@@ -53,11 +53,13 @@ export default class HistoryScreen extends React.Component {
       //console.log("##### VIEW DATA IN LOOP########");
       //console.log(dataWait);
       const result = [];
-      let data=dataWait.val();       
+      let data=dataWait.val();  
+      if(data != null) 
+      {
       let promiseArr= Object.keys(data).map(function (key, index) {          
         //console.log("##### VIEW KEY IN LOOP########");
        // console.log(key);
-        //console.log(data[key].product_code);
+        //console.log(data[key].product_code);      
         return new Promise(resolve => {            
            resolve(
             result.push({
@@ -88,6 +90,7 @@ export default class HistoryScreen extends React.Component {
                //console.log("############VIEW DATA LAST###################");
                //console.log(this.state.orderDtl);                 
       });
+      }
     }
   
 
@@ -122,10 +125,14 @@ export default class HistoryScreen extends React.Component {
   render() {
     return (      
       <View>
-         <FlatList
-          data={this.state.orderDtl}
-          renderItem={this._render}         
-         />         
+        {(this.state.orderDtl.length > 0)?
+           <FlatList
+           data={this.state.orderDtl}
+           renderItem={this._render}  
+          /> 
+          :
+           <Text style={[styles.fontHeaderInfo,{textAlign: 'center'}]}>ไม้มีข้อมูลการจอง</Text>
+        }
       </View>
     );
   }
@@ -140,20 +147,97 @@ HistoryScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
-    height: 105,
-    flexDirection: 'row',
+    justifyContent: 'center',
+    height: 250,
     marginTop: 10,
     marginLeft: 10,
     marginRight: 10,
-    borderRadius: 5
+    borderRadius: 10,
+    //borderWidth:0.25,
+    //elevation:10,       
+    backgroundColor: '#f6f6f6'
+  },
+  containerInner: {
+    justifyContent: 'center',
+    height: 200,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 10,
+    //borderWidth:0.25,
+    //elevation:10,       
+    backgroundColor: 'white'
+
+  },
+  containerReason: {
+    justifyContent: 'center',
+    height: 50,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 10,
+    //borderWidth:0.25,
+    //elevation:10,       
+    backgroundColor: '#f6f6f6'
+
   },
   contentLayout: {
-    flex: 8,
     padding: 5,
   },
   iconLayout: {
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20
+  },
+  fontHeaderError: {
+    fontFamily: 'kanit-bold',
+    color: 'red'
+  },
+  fontButton: {
+    fontFamily: 'kanit-bold',
+    color: 'white'
+  },
+  button: {
+    alignItems: 'center',
+    width: '50%',
+    backgroundColor: '#F7A221',
+    borderRadius: 5,
+    padding: 10
+  }
+  ,
+  fontHeaderWarnning: {
+    fontFamily: 'kanit-bold',
+    color: '#D1CE05'
+  }
+  ,
+  fontHeaderSuccess: {
+    fontFamily: 'kanit-bold',
+    color: 'green'
+  },
+  fontHeaderInfo: {
+    fontFamily: 'kanit-bold',
+    color: 'blue'
+  },
+  fontDetailI: {
+    fontFamily: 'kanit'
+
+  }
+  ,
+  fontDetailII: {
+    fontFamily: 'kanit',
+    fontSize: 10,
+    color: '#7d7d7d'
+
+  }
+  , fontReason:
+  {
+    fontFamily: 'kanit-bold',
+    color: 'blue',
+    fontSize: 12
+  }
+  , fontReasonDetail:
+  {
+    fontFamily: 'kanit-bold',
+    fontSize: 12
   }
 });
