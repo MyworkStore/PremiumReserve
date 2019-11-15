@@ -80,7 +80,8 @@ export default class PushNotificationScreen extends React.Component{
                 to: this.state.token,
                 sound: 'default',
                 title: 'ทดสอบ Notification',
-                body: this.state.message
+                body: this.state.message,
+                badge: 99
                 
             })
         })

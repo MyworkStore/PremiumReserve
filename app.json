@@ -15,6 +15,10 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
+    "notification": {
+      "icon": "./assets/images/icon10.png",
+      "color": "#ffffff"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
