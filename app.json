@@ -19,6 +19,7 @@
       "icon": "./assets/images/icon10.png",
       "color": "#ffffff"
     },
+    "ignoreNodeModulesValidation": true,
     "updates": {
       "fallbackToCacheTimeout": 0
     },
