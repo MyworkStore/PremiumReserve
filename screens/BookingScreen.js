@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6'
   },
   containerImg:{
-    height: 350,
+    height: 250,
     marginTop: 5,
     marginLeft: 5,
     marginRight: 5,
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6'
   },
   containerCon:{
-    height: 400,
+    height: 200,
     marginTop: 5,
     marginLeft: 5,
     marginRight: 5,
