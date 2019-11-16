@@ -14,58 +14,13 @@ import {
   ScrollView,
   AsyncStorage
 } from 'react-native';
-
 import FirebaseHelper from '../helper/FireBaseHelper'
 import { getLongCurrentTime } from '../components/CommonFunction'
 import Card from '../components/Card'
-
 import Images from '../helper/imageHelper'
 import Constants from 'expo-constants';
 import Lookup from '../helper/Lookup';
-
-
-//  function CardItem(props){
-//     var param = props.object;
-//     return(
-
-//     )
-//   }
-
-let order = {
-  //"allmem_barcode_pic" : "0976560.png", --
-  allmem_barcode_pic: "",
-  // //"booking_by" : "A",
-  // booking_by: userid,
-  // //"booking_qty" : 1,
-  // booking_qty: "1",
-  // //"booking_timestamp" : 1573199615,
-  // booking_timestamp: getLongCurrentTime(),
-  // //"booking_value" : 10900,
-  // booking_value: orderValue,
-  // //"confirm_timestamp" : 1573199615, --
-  // confirm_timestamp: "",
-  // //"firstname" : "สมัชญ์,"
-  // firstname: CustName,
-  // //"invoice_pic" : "ORD123456786.PNG", --
-  // invoice_pic: "",
-  // //"lastname" : "จันทอนุกูล" , --
-  // lastname: "",
-  // //"notification_flag" : "Y", -- "N"
-  // notification_flag: "N",
-  // //"order_no" : "0976560",
-  // order_no: "order-" + getLongCurrentTime(),
-  // //"order_status" : "C", -- "U"
-  // order_status: "U",
-  // //"phone" : "0635162877",
-  // phone: orderCustTel,
-  // //"product_code" : "item-9000451",
-  // product_code: "item-" + product_code,
-  // //"reason_reject" : ""
-  // reason_reject: ""
-}
-
 export default class BookingScreen extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -88,15 +43,12 @@ export default class BookingScreen extends React.Component {
       bookingType:"M"
     };    
   }
-
   async componentDidMount() {
     const { navigation } = this.props;
     let productCode = await navigation.getParam('productCode', 'NO-PRODUCTCODE');
     //alert(productCode);
     this.getProductInfo("tb_product_master/item-" + productCode);
     await this.checkCustTel(); 
-    this.saveData();
-
   }
   componentWillReceiveProps(nextProps) {
     const { navigation } = this.props;
@@ -121,10 +73,7 @@ export default class BookingScreen extends React.Component {
       }
     });
   }
-  getProductInfo(table) {
-    //const result = [];
-    //console.log(" ###### IN getProductInfo##### ");
-    // console.log(table);
+  getProductInfo(table) {  
     FirebaseHelper.queryDataObj(table)
       .then(data => {
         return new Promise(resolve => {
@@ -136,13 +85,9 @@ export default class BookingScreen extends React.Component {
               cash: data.cash,
               stamp: data.m_stamp,             
             })
-          );
-          //console.log(" ###### IN getProductInfo##### ");     
-          //console.log(data);
-          //alert(data.pic_full);
+          );        
           resolve(
-            FirebaseHelper.queryFileStorage("/itemList/" + data.pic).then((image) => {
-              //alert(image);  
+            FirebaseHelper.queryFileStorage("/itemList/" + data.pic).then((image) => {           
               this.setState({
                 urlImage: image
               });
@@ -156,7 +101,7 @@ export default class BookingScreen extends React.Component {
     if (this.state.CustName == "" || this.state.CustLName == "" || this.state.CustTel == "" || this.state.bookingType == "") {
       Alert.alert(
         '!แจ้งเดือน',
-        'กรูณาระบุข้อมูลให้ครบถ้วน ชื่อ-นามสุกล,เบอร์โทร',
+        'กรูณาระบุข้อมูลให้ครบถ้วน ชื่อ-นามสกุล,เบอร์โทร',
         [
 
           { text: 'ตกลง', onPress: () => console.log('OK Pressed') },         
@@ -168,10 +113,10 @@ export default class BookingScreen extends React.Component {
 
       let msg = "";
       if (this.state.bookingType == 'A') {
-        msg = "คุณต้องการจอง" + this.state.productName + " จำนวน 1 ชิ้น,ด้วย:" + Lookup['AN'] + "(" + this.state.point + Lookup['AU'] + ") ผู้จอง:" + this.state.CustName + ",เบอร์โทร" + this.state.CustTel;
+        msg = "คุณต้องการจอง" + this.state.productName + " จำนวน 1 ชิ้น,ด้วย:" + Lookup['AN'] + "(" + this.state.point + Lookup['AU'] + ") ผู้จอง:" + this.state.CustName + " "+ this.state.CustLName + ",เบอร์โทร" + this.state.CustTel;
       }
       else {
-        msg = "คุณต้องการจอง" + this.state.productName + " จำนวน 1 ชิ้น,ด้วย:" + Lookup['MN'] + "(" + this.state.stamp + Lookup['MU'] + ") ผู้จอง:" + this.state.CustName + ",เบอร์โทร" + this.state.CustTel;
+        msg = "คุณต้องการจอง" + this.state.productName + " จำนวน 1 ชิ้น,ด้วย:" + Lookup['MN'] + "(" + this.state.stamp + Lookup['MU'] + ") ผู้จอง:" + this.state.CustName + " "+this.state.CustLName +",เบอร์โทร" + this.state.CustTel;
       }
       Alert.alert(
         'รายละเอียดคำสั่งจอง',
@@ -192,7 +137,6 @@ export default class BookingScreen extends React.Component {
 
   }
    saveData=async()=>{   
-    alert('xxxxxx') 
     let time = await getLongCurrentTime();
     let userid = this.state.userid;
     let order_no = "ORD"+time;
@@ -224,12 +168,9 @@ export default class BookingScreen extends React.Component {
      .then(() => {
         // this.props.navigation.navigate("History")
     })      
-    }, 3000);
-      
+    }, 3000);      
   }  
-
   render() {
-
     //this.getProductInfo("tb_product_master/item-"+this.state.orderDetail.product_code);
     //this.getProductInfo("tb_product_master/item-9000451");
     return (
@@ -331,16 +272,13 @@ export default class BookingScreen extends React.Component {
 
         </View>
       </ScrollView>
-
     );
   }
 }
-
 BookingScreen.navigationOptions = {
   title: 'จองสินค้า'
 };
 const styles = StyleSheet.create({
-
   containerInfo: {
     height: 45,
     flexDirection: 'row',
