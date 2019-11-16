@@ -91,7 +91,10 @@ export default class HistoryDetailScreen extends React.Component {
             this.props.navigation.navigate("History")
           })
         this.getToken("store-00005/", "transaction/" + orderDetail.order_no);
-        this.sendMessage("ExponentPushToken[-IHQ6NO89P9Nyz-HK8wNyB]");        
+        FirebaseHelper.queryDataObj("userNoti/store-00005").then(data=>{
+          //alert(data);
+          this.sendMessage(data); 
+        });    
       });
   }
   onUpdate = (val) => {
@@ -210,6 +213,14 @@ export default class HistoryDetailScreen extends React.Component {
             ></Image>
           </View>
 
+        );
+        break;
+        case "D":
+        return (           
+          <View style={styles.containerReason}>
+               <Text style={styles.fontReasonDetail}>หมายเหตุ*</Text>
+              <Text style={styles.fontReasonDetail}>{orderDetail.reason_reject}</Text>
+        </View>
         );
         break;
       case "C":

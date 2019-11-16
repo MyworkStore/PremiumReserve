@@ -85,9 +85,22 @@ export default class BookingScreen extends React.Component {
       stamp: "",
       orderValue: "",
       urlImage: "",
-      bookingType:"M"
-    };    
+      bookingType:"M"  
+
+    };
+    console.ignoredYellowBox = [
+      'Setting a timer'
+    ];
+
+    //AsyncStorage.setItem('userid', '0839145155');
+
+    //product_code = '9000451';
+    //console.log("product is " + this.state.productCode)
+    
   }
+
+
+
 
   async componentDidMount() {
     const { navigation } = this.props;
@@ -95,7 +108,7 @@ export default class BookingScreen extends React.Component {
     //alert(productCode);
     this.getProductInfo("tb_product_master/item-" + productCode);
     await this.checkCustTel(); 
-    this.saveData();
+    
 
   }
   componentWillReceiveProps(nextProps) {
@@ -104,16 +117,19 @@ export default class BookingScreen extends React.Component {
     //alert(productCode);
     this.getProductInfo("tb_product_master/item-" + productCode);
   }
+
   onFocus() {
     this.setState({
       inputBorder: '#668cff'
     })
   }
+
   clearText() {
     this.refs.CustName.clear();
     this.refs.CustTel.clear();
     this.refs.CustNid.clear();
   }
+
   checkCustTel = async () => {
     AsyncStorage.getItem('userid').then(data => {
       if (data !== null && data !== '') {
@@ -121,6 +137,34 @@ export default class BookingScreen extends React.Component {
       }
     });
   }
+
+  useCustTelorNid() {
+    // Check Tel No. || NID
+    if ((this.state.CustTel == null || this.state.CustTel == '') && (this.state.CustNid == null || this.state.CustNid == '')) {
+      Alert.alert('กรุณาใส่เบอร์โทรศัพท์ หรือ เลขบัตรประชาชน')
+    }
+    else if ((this.state.CustTel == null || this.state.CustTel == '') && (this.state.CustNid !== null || this.state.CustNid !== '')) {
+      orderCustTel = this.state.CustNid;
+      //Alert.alert(orderCustTel);
+    }
+    else if ((this.state.CustTel !== null || this.state.CustTel !== '') && (this.state.CustNid == null || this.state.CustNid == '')) {
+      orderCustTel = this.state.CustTel;
+      //Alert.alert(orderCustTel);
+    }
+    else {
+      orderCustTel = this.state.CustTel;
+      //Alert.alert(orderCustTel);
+    }
+
+    // Check stamp || point
+    if (this.state.PickerValue.value == "stamp") {
+      orderValue = stamp;
+    }
+    else if (this.state.PickerValue.value == "point") {
+      orderValue = point;
+    }
+  }
+
   getProductInfo(table) {
     //const result = [];
     //console.log(" ###### IN getProductInfo##### ");
@@ -152,7 +196,15 @@ export default class BookingScreen extends React.Component {
       }
       );
   }
-  confirm = async () => {  
+  // onBlur(element) {
+  //   this.setState({
+  //     inputBorder: '#000000'
+  //   })
+  // }
+
+ 
+  confirm = async () => {
+  
     if (this.state.CustName == "" || this.state.CustLName == "" || this.state.CustTel == "" || this.state.bookingType == "") {
       Alert.alert(
         '!แจ้งเดือน',
@@ -178,7 +230,7 @@ export default class BookingScreen extends React.Component {
         msg,
         [
 
-          { text: 'ตกลง', onPress: () => this.saveData() },
+          { text: 'ตกลง', onPress: () => this.save() },
           {
             text: 'ยกเลิก',
             onPress: () => console.log('Cancel Pressed'),
@@ -187,46 +239,43 @@ export default class BookingScreen extends React.Component {
         ],
         { cancelable: false },
       );
+
     }
-  
 
   }
-   saveData=async()=>{   
-    alert('xxxxxx') 
+  save = async()=>{
     let time = await getLongCurrentTime();
     let userid = this.state.userid;
-    let order_no = "ORD"+time;
+    let order_no = ""+time;
     let tel = "00000000";     
     let prd = "item-"+productCode;
     let lastname="L";
     let firstname="f";
     let booking_value=200;
     let booking_timestamp=time;
-    setTimeout(() => {
-      let order = {                   
-        allmem_barcode_pic : "-",
-        booking_by : "A",
-        booking_qty : 1,
-        booking_timestamp : booking_timestamp,
-        booking_value : booking_value,
-        confirm_timestamp : 0,
-        firstname : firstname,
-        invoice_pic : "-",
-        lastname : lastname,
-        notification_flag : "N",
-        order_no : order_no,
-        order_status : "U",
-        phone : tel,
-        product_code: prd,
-        reason_reject : "-" ,       
-   }    
-    FirebaseHelper.writeUserData("tb_user", "user-"+userid+"/order-"+order_no, order)
-     .then(() => {
-        // this.props.navigation.navigate("History")
-    })      
-    }, 3000);
-      
-  }  
+    let order = {                   
+          allmem_barcode_pic : "-",
+          booking_by : "A",
+          booking_qty : 1,
+          booking_timestamp : booking_timestamp,
+          booking_value : booking_value,
+          confirm_timestamp : 0,
+          firstname : firstname,
+          invoice_pic : "-",
+          lastname : lastname,
+          notification_flag : "N",
+          order_no : order_no,
+          order_status : "U",
+          phone : tel,
+          product_code: prd,
+          reason_reject : "-" ,       
+     }    
+      FirebaseHelper.writeUserData("tb_user", "user-"+userid+"/order-"+order_no, order)
+       .then(() => {
+          // this.props.navigation.navigate("History")
+      })   
+  }
+  
 
   render() {
 

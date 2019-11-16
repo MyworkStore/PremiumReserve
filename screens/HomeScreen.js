@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import Images from '../helper/imageHelper';
 import Constants from 'expo-constants';
-import FirebaseHelper from '../helper/FireBaseHelper';
 
 function Separator() {
   return <View style={styles.separator} />;
@@ -28,12 +27,9 @@ export default class HomeScreen extends React.Component {
 
  
   checkUser = async () => {
-    //await AsyncStorage.removeItem('userid');
     AsyncStorage.getItem('userid').then(data=>{
-      //console.log("XXXXXXXXXXXXXXXXXXXXX");
-      //console.log(data);
       if (data !== null && data !== '' ) {
-        console.log("ifdddd");
+        console.log("Has Local UserId Link to Home2");
         this.props.navigation.navigate("Home2");
       } 
     });      
@@ -79,14 +75,23 @@ export default class HomeScreen extends React.Component {
           <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
             <Button
               title="คู่มือการใช้งาน"
-              onPress={this._handleOpenWithWebBrowser}
+              onPress={this._handleOpenWithWebBrowserManual}
               color="#4d79ff"
             />
           </View>
           <Separator />
-          <View style={{flex:2}}>
+          <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+            <Button
+              title="เงื่อนไขการให้บริการ"
+              onPress={this._handleOpenWithWebBrowserPrivacy}
+              color="#4d79ff"
+            />
           </View>
-
+          <Separator />
+          <View style={{flex:1,alignItems:'center',justifyContent:'center',backgroundColor:'#ffffff'}}>
+            <Text style={{fontSize: 15, color: '#A97555'}}>แอปพลิเคชั่นนี้อยู่ในช่วงทดสอบ เพื่อปรับปรุงการจองสินค้า Premium</Text>
+          </View>
+          <Separator />
         </View>
       </ImageBackground>
     );
@@ -102,12 +107,10 @@ export default class HomeScreen extends React.Component {
         ]
       )
     } else {
-      await AsyncStorage.removeItem('userid');
       await AsyncStorage.setItem('userid', this.state.text);
       const value = await AsyncStorage.getItem('userid');
-
       if (value !== null) {
-        console.log(value);
+        console.log('User '+value+' Login to Home2');
         this.props.navigation.navigate("Home2");
       }
       
@@ -115,13 +118,17 @@ export default class HomeScreen extends React.Component {
     }
   }
   
-  _handleOpenWithWebBrowser = () => {
+  _handleOpenWithWebBrowserManual = () => {
     WebBrowser.openBrowserAsync('http://gahp.net/wp-content/uploads/2017/09/sample.pdf');
+  }
+
+  _handleOpenWithWebBrowserPrivacy = () => {
+    WebBrowser.openBrowserAsync('https://drive.google.com/file/d/1u3WN35y910JB2z7o70NIYO3p4YgYzg7I/view?usp=sharing');
   }
 };
 
 HomeScreen.navigationOptions =  {
-  title: 'ALL Premium',
+  title: 'All Premium',
   headerTitleStyle: { flex: 1, textAlign: 'center'}
   //header: null,
 };
