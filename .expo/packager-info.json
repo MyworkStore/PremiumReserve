@@ -2,7 +2,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": "https://at-w24.nonnomal.premiumreserve.exp.direct",
-  "packagerNgrokUrl": "https://packager.at-w24.nonnomal.premiumreserve.exp.direct",
-  "ngrokPid": 20452
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
