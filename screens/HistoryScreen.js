@@ -160,6 +160,7 @@ export default class HistoryScreen extends React.Component {
   }
   render() {
     return (
+     <ScrollView>
       <View>
         {(this.state.orderDtl.length > 0) ?
           <FlatList
@@ -169,7 +170,17 @@ export default class HistoryScreen extends React.Component {
           :
           <Text style={[styles.fontHeaderInfo, { textAlign: 'center' }]}>ไม้มีข้อมูลการจอง</Text>
         }
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate("Home2")}>
+              <Text style={styles.fontButton} > กลับหน้าหลัก </Text>
+            </TouchableOpacity>
+          </View>
       </View>
+
+      </ScrollView>
+
     );
   }
 }
@@ -178,7 +189,7 @@ HistoryScreen.navigationOptions = {
   title: 'ประวัติ',
   //headerLeft: null
   // header: null,
-  // tabBarVisible: false
+  tabBarVisible: true
 };
 
 const styles = StyleSheet.create({
@@ -280,4 +291,5 @@ const styles = StyleSheet.create({
     fontFamily: 'kanit-bold',
     fontSize: 12
   }
+  
 });

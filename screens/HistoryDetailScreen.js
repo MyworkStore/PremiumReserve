@@ -4,6 +4,7 @@ import {
   Image,
   ScrollView,
   StyleSheet,
+  ActivityIndicator,
   Text,
   TouchableOpacity,
   View,
@@ -27,6 +28,7 @@ export default class HistoryDetailScreen extends React.Component {
     super(props);
 
     this.state = {
+      showLoader: true,
       orderDetail: [],
       uriUpload: null,
       loadToken: false,
@@ -44,14 +46,22 @@ export default class HistoryDetailScreen extends React.Component {
     //  }
     console.log('############### AAAAAAAAAAAA ################');
   }
+  componentDidMount()
+  {
+    this.setState({showLoader:false});
+  }
 
   _picker = async () => {
+    this.setState({     
+      showLoader:true
+    });
     let result = await DocumentPicker.getDocumentAsync({
       type: 'image/*',
       copyToCacheDirectory: false
     });
     this.setState({
-      uriUpload: result.uri
+      uriUpload: result.uri,
+      showLoader:false
     });
 
   }
@@ -59,7 +69,10 @@ export default class HistoryDetailScreen extends React.Component {
 
   render() {
     // const { navigation } = this.props;
-    const { navigation } = this.props;
+    const { navigation } = this.props;    
+    if( this.state.showLoader ){
+      return <View style={styles.spinner}><ActivityIndicator size="large" color="#0000ff" /></View>
+    }else{
     return (
       <View>
         <ScrollView>
@@ -72,9 +85,12 @@ export default class HistoryDetailScreen extends React.Component {
           {this.showDetail()}
 
         </ScrollView>
-      </View>
+      </View>      
     );
+    }
   }
+  
+
   insertTransToStore(time, userid, orderDetail) {
     FirebaseHelper.queryDataObjII("tb_product_master/" + orderDetail.product_code)
       .then(data => {
@@ -146,6 +162,7 @@ export default class HistoryDetailScreen extends React.Component {
       Alert.alert("แจ้งเตือน!!", "กรุณาเลือกรูป All memeber Barcode", [{ text: 'ตกลง' }]);
     }
     else {
+      this.setState({showLoader:true});
       const { navigation } = this.props;
       const userid = navigation.getParam('userid', 'NO-orderStatusMsg');
       const orderDetail = navigation.getParam('orderDetail', 'NO-orderStatusMsg');
@@ -359,5 +376,11 @@ const styles = StyleSheet.create({
   {
     fontFamily: 'kanit-bold',
     fontSize: 12
+  }
+  ,
+  spinner: {
+    flex: 1,
+    marginTop: Constants.statusBarHeight,
+    justifyContent: 'center'
   }
 });

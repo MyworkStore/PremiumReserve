@@ -114,8 +114,6 @@ const tabNavigator = createBottomTabNavigator({
 });
 
 tabNavigator.path = '';
-
-
 export default createAppContainer(createSwitchNavigator(
   {
     App: tabNavigator,
