@@ -10,7 +10,8 @@ import HistoryScreen from '../screens/HistoryScreen';
 import BookingScreen from '../screens/BookingScreen';
 import ItemScreen from '../screens/ItemScreen';
 import HistoryDetailScreen from '../screens/HistoryDetailScreen';
-import Home2Screen from '../screens/Home2Screen'
+import Home2Screen from '../screens/Home2Screen';
+import ReviewScreen from '../screens/ReviewScreen';
 
 import Images from '../helper/imageHelper'
 import { tsExportAssignment } from '@babel/types';
@@ -47,14 +48,41 @@ HomeStack.navigationOptions = ({ navigation }) => ({
 
 HomeStack.path = '';
 
+const ReviewStack = createStackNavigator(
+  {
+    Review:ReviewScreen,
+  },
+  config
+);
+
+ReviewStack.navigationOptions = ({ navigation }) => ({
+  tabBarLabel: 'Home',
+  tabBarIcon: ({ focused, tintColor }) => (
+    <TabBarIcon
+      focused={focused}
+      isImage={false}
+      name={'ios-home'}
+      color={tintColor}
+    />
+  ),
+  tabBarOptions: {
+    showLabel: true,
+    activeTintColor: '#ff0000',
+    //inactiveTintColor: "red"
+  },
+  tabBarVisible: false
+})
+
+ReviewStack.path = '';
+
+
 const AppStack = createStackNavigator(
   {
-    Home2: Home2Screen,
+    Home2: Home2Screen,    
     Item: ItemScreen,
     Booking: BookingScreen,
-    History: HistoryScreen,
-    HistoryDetail: HistoryDetailScreen,   
-   
+    History: HistoryScreen,   
+    HistoryDetail: HistoryDetailScreen
   },
   config
 );
@@ -82,6 +110,7 @@ AppStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
+  ReviewStack,
   AppStack,
 });
 

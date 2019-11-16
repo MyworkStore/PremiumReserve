@@ -16,13 +16,13 @@ firebase.initializeApp(firebaseConfig);
 
 class FirebaseHelper extends React.Component {
 
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.state = {
             index: null,
             data: Object
         };
-        
+
         console.disableYellowBox = true;
         // console.ignoredYellowBox = ['Setting a timer'];
 
@@ -31,13 +31,13 @@ class FirebaseHelper extends React.Component {
 
     }
 
-    queryData = async(path, orderByPath) => {
+    queryData = async (path, orderByPath) => {
 
         const result = [];
 
         const baseRef = this.fireBase.ref(path);
 
-        if( orderByPath != undefined || orderByPath != '' ){
+        if (orderByPath != undefined || orderByPath != '') {
             baseRef.orderByChild(orderByPath);
         }
 
@@ -48,56 +48,87 @@ class FirebaseHelper extends React.Component {
             object.map((item, index) => {
                 result.push(item);
             });
-            
+
         }).then(() => {
             return result;
         })
 
     }
- // tb_
- //key  
- writeUserData(node,key,obj){
-    return (firebase.database().ref(node).child(key).update(obj));
-}
+    // tb_
+    //key  
+    writeUserData(node, key, obj) {
+        return (firebase.database().ref(node).child(key).update(obj));
+    }
 
-  updateData(node, key, data) {
-        console.log(node);
-        console.log(key);
-        console.log(data);
+    updateData(node, key, data) {
+        //console.log(node);
+        //console.log(key);
+        //console.log(data);
         //firebase.database().ref(node).child(key).update(data)
-       return new Promise(resolve => {
-           resolve(firebase.database().ref(node).child(key).update(data))
-         })
-        }
-    
-  listenerData(node, callback) {
+        return new Promise(resolve => {
+            resolve(firebase.database().ref(node).child(key).update(data))
+        })
+    }
+
+    listenerData(node, callback) {
         return firebase.database().ref(node).on('value', snap => callback(snap))
     }
-    queryDataObj = async(path) => {
-        
-        let result='' ;
+    queryDataObj = async (path) => {
+
+        let result = '';
         const baseRef = this.fireBase.ref(path);
         await baseRef.once('value').then(snapshot => {
-           // console.log("XXXXXXXXXXXXXXXXXXXXXXXX"); 
-          //  console.log(snapshot.val());           
+            //console.log("XXXXXXXXXXXXXXXXXXXXXXXX"); 
+            //  console.log(snapshot.val());           
             //Object.assign(result, snapshot.val().product_code) 
-            result     =  snapshot.val();  
-           // console.log("1YYYYYYYYYYYYYYYYYYYYYYYYYY"); 
-          //   console.log(result);
-           //  console.log("2YYYYYYYYYYYYYYYYYYYYYYYYYY");
+            result = snapshot.val();
+            // console.log("1YYYYYYYYYYYYYYYYYYYYYYYYYY"); 
+            //   console.log(result);
+            //  console.log("2YYYYYYYYYYYYYYYYYYYYYYYYYY");
         });
         //console.log("3YYYYYYYYYYYYYYYYYYYYYYYYYY"); 
         //console.log(result);
         //console.log("4YYYYYYYYYYYYYYYYYYYYYYYYYY"); 
-        return  result;
-    
+        return result;
+
     }
-    queryDataObjII = (path) => {
-        //alert('xxxxx');
-        return  this.fireBase.ref(path).once('value')
+    existsDoc= async (path,node)=>{
+        //alert("xxxxxxxxxxxxxxxxxxxxxxxxx");
+        let result ={
+            review:0
+        };
+        //return result;
+        // console.log(path);
+        const baseRef = this.fireBase.ref(path);
+        await baseRef.once('value', snapshot => {
+            //console.log(snapshot);
+            if(snapshot.hasChild(node)) {   
+                            
+                result={
+                    review:0
+                };
+                //alert(result.review);
+              
+            } else {            
+                result={
+                    review:1
+                };
+                //alert(result.review);
+           
+            }
+          });
+
+          return result
+
+       
     }
 
-    queryFileStorage = async(path) => {
+    queryDataObjII = (path) => {
+        //alert('xxxxx');
+        return this.fireBase.ref(path).once('value')
+    }
+
+    queryFileStorage = async (path) => {
 
         let result = "";
 
@@ -105,27 +136,27 @@ class FirebaseHelper extends React.Component {
 
         return ref.getDownloadURL().then(data => {
             result = data;
-            }).then(() => {
-                return result;
-            }).catch(error => {
-                console.log("Exception : " + error.message_)
-            })
+        }).then(() => {
+            return result;
+        }).catch(error => {
+            console.log("Exception : " + error.message_)
+        })
 
     }
 
-    queryRealTime = async(path, orderByPath) => {
+    queryRealTime = async (path, orderByPath) => {
 
         const result = [];
 
         const baseRef = this.fireBase.ref(path);
 
-        if( orderByPath == undefined || orderByPath == '' ){
+        if (orderByPath == undefined || orderByPath == '') {
             baseRef.orderByKey();
-        }else{
+        } else {
             baseRef.orderByChild(orderByPath);
         }
 
-        baseRef.on('value', async function(snapshot) {
+        baseRef.on('value', async function (snapshot) {
 
             let object = Object.values(snapshot.val());
 
@@ -136,7 +167,7 @@ class FirebaseHelper extends React.Component {
         })
 
     }
-      async uploadImageAllmem(key, uri) {
+    async uploadImageAllmem(key, uri) {
         const response = await fetch(uri);
         const blob = await response.blob();
         var ref = firebase.storage().ref().child("allmembarcode/" + key);

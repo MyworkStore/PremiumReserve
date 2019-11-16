@@ -105,15 +105,13 @@ const styles = StyleSheet.create({
         color:'blue'
     },
     fontDetailI:{
-        fontFamily: 'kanit'
-   
+        fontFamily: 'kanit'   
     }
     ,
     fontDetailII:{
         fontFamily: 'kanit',
         fontSize: 10,  
-        color: '#7d7d7d'
-   
+        color: '#7d7d7d'   
     }
 
 });
