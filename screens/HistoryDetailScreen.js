@@ -134,7 +134,8 @@ export default class HistoryDetailScreen extends React.Component {
         to: token,        
         sound: 'default',
         title: 'ข้อความแจ้งเตือน',
-        body: "มีคำสั่งซื่อเข้ามาในระบบ"      
+        body: "มีคำสั่งซื่อเข้ามาในระบบ",
+        badge: 99      
       })
     })
   }
