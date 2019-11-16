@@ -4,6 +4,7 @@ import {
   Image,
   Platform,
   StyleSheet,
+  ActivityIndicator,
   Text,
   TouchableOpacity,
   TextInput,
@@ -24,6 +25,7 @@ export default class BookingScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showLoader: true,
       inputBorder: "#cccccc",
       userid: "",
       CustName: "",
@@ -89,7 +91,8 @@ export default class BookingScreen extends React.Component {
           resolve(
             FirebaseHelper.queryFileStorage("/itemList/" + data.pic).then((image) => {           
               this.setState({
-                urlImage: image
+                urlImage: image,
+                showLoader: false,
               });
             })
           );
@@ -98,6 +101,7 @@ export default class BookingScreen extends React.Component {
       );
   }
   confirm = async () => {  
+
     if (this.state.CustName == "" || this.state.CustLName == "" || this.state.CustTel == "" || this.state.bookingType == "") {
       Alert.alert(
         '!แจ้งเดือน',
@@ -136,20 +140,35 @@ export default class BookingScreen extends React.Component {
   
 
   }
-   saveData=async()=>{   
-    let time = await getLongCurrentTime();
+   saveData=async()=>{
+  //   FirebaseHelper.writeUserData("tb_user", "user-0635162877"+"/order-xxxx", {
+  //     xxxxx:'xxxxx'
+  //   })
+  //   .then(() => {
+  //     alert('ididididi');
+  //  })
+    this.setState({showLoader: false});   
+    const { navigation } = this.props;
+    let productCode = navigation.getParam('productCode', 'NO-PRODUCTCODE');
+    //let productCode = "04444444"
     let userid = this.state.userid;
-    let order_no = "ORD"+time;
-    let tel = "00000000";     
+    //alert(this.state.userid);   
+    let tel = this.state.CustTel;     
     let prd = "item-"+productCode;
-    let lastname="L";
-    let firstname="f";
-    let booking_value=200;
-    let booking_timestamp=time;
-    setTimeout(() => {
+    let lastname=this.state.CustLName;
+    let firstname=this.state.CustName;
+    let booking_value=this.state.stamp;
+    if(this.state.bookingType=='A')
+    {
+      booking_value=this.state.point
+    }  
+    let timeCur = await getLongCurrentTime()
+    let order_no = "ORD"+timeCur;  
+    let booking_timestamp=timeCur;
+    let booking_by=this.state.bookingType;
       let order = {                   
         allmem_barcode_pic : "-",
-        booking_by : "A",
+        booking_by : booking_by,
         booking_qty : 1,
         booking_timestamp : booking_timestamp,
         booking_value : booking_value,
@@ -163,20 +182,27 @@ export default class BookingScreen extends React.Component {
         phone : tel,
         product_code: prd,
         reason_reject : "-" ,       
-   }    
+   }   
+   
     FirebaseHelper.writeUserData("tb_user", "user-"+userid+"/order-"+order_no, order)
-     .then(() => {
-        // this.props.navigation.navigate("History")
-    })      
-    }, 3000);      
+    .then(() => {
+       this.props.navigation.navigate("History")       
+   })      
+   
+     
   }  
   render() {
     //this.getProductInfo("tb_product_master/item-"+this.state.orderDetail.product_code);
     //this.getProductInfo("tb_product_master/item-9000451");
+    if( this.state.showLoader ){
+      return <View style={styles.spinner}><ActivityIndicator size="large" color="#0000ff" /></View>
+    }else{
+
     return (
       <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
-
+         
+        <View style={styles.containerImg}>
           <View style={styles.imagePanel}>
             <View style={styles.imageGrid}>
               <Image
@@ -191,7 +217,10 @@ export default class BookingScreen extends React.Component {
                 resizeMode='contain'
               />
             </View>
+            <Text style={{textAlign:'center',fontFamily: 'kanit',fontSize: 18}}>{this.state.productName}</Text>
           </View>
+          </View>
+        <View style={styles.containerCon}>
           <Text style={styles.labelText}>
             ชื่อผู้จอง :
           </Text>
@@ -247,6 +276,7 @@ export default class BookingScreen extends React.Component {
             <Picker.Item label={Lookup['MN']} value="M" color="green" />
             <Picker.Item label={Lookup['AN']} value="A" color="blue" />
           </Picker>
+          </View>
           <View style={styles.containerInfo}>
             <View >
               <Text style={styles.labelText}>จำนวน: </Text><Text style={styles.fontDetailI}>1 ชิ้น</Text>
@@ -274,6 +304,7 @@ export default class BookingScreen extends React.Component {
       </ScrollView>
     );
   }
+  }
 }
 BookingScreen.navigationOptions = {
   title: 'จองสินค้า'
@@ -282,6 +313,22 @@ const styles = StyleSheet.create({
   containerInfo: {
     height: 45,
     flexDirection: 'row',
+    marginTop: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    borderRadius: 5,
+    backgroundColor: '#f6f6f6'
+  },
+  containerImg:{
+    height: 350,
+    marginTop: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    borderRadius: 5,
+    backgroundColor: '#f6f6f6'
+  },
+  containerCon:{
+    height: 400,
     marginTop: 5,
     marginLeft: 5,
     marginRight: 5,
@@ -367,5 +414,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
     borderRadius: 5,
     padding: 10,
+  },
+  spinner: {
+    flex: 1,
+    marginTop: Constants.statusBarHeight,
+    justifyContent: 'center'
   }
 });

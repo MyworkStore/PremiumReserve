@@ -107,7 +107,6 @@ AppStack.navigationOptions = ({ navigation }) => ({
 
 AppStack.path = '';
 
-
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   ReviewStack,
@@ -115,8 +114,6 @@ const tabNavigator = createBottomTabNavigator({
 });
 
 tabNavigator.path = '';
-
-
 export default createAppContainer(createSwitchNavigator(
   {
     App: tabNavigator,

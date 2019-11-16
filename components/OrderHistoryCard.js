@@ -143,13 +143,13 @@ export default class OrderHistoryCard extends Component {
                     <View style={styles.contentLayout}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <DispalyOrderStatus param={this.state} /> 
-                            <Text style={{  fontSize: 10, flex: 1, textAlign: 'right' }}>{Moment(this.props.orderDetail.booking_timestamp).format('DD/MM/YYYY HH:MM:SS')}</Text>
+                            <Text style={{  fontSize: 10, flex: 1, textAlign: 'right' }}>{Moment(this.props.orderDetail.booking_timestamp).format('DD/MM/YYYY HH:mm')}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row', marginTop: 5, padding: 2, borderRadius: 5 }}>
                             <View style={{ flex: 1, backgroundColor: 'white', padding: 8, borderRadius: 5 }}>
                                 <Text style={styles.fontDetailI}>{this.state.productName} </Text>
                                 <Text style={styles.fontDetailII}>Order # {this.state.orderNo}</Text>
-                                <Text style={styles.fontDetailII}>จำนวน # {this.props.orderDetail.booking_qty} PCS.  </Text>
+                                <Text style={styles.fontDetailII}>จำนวน # {this.props.orderDetail.booking_qty} ชิ้น  </Text>
                                 <Text style={styles.fontDetailII}>แลกด้วย # {(this.props.orderDetail.booking_by=='A')?Lookup['AN']:Lookup['MN']} {this.props.orderDetail.booking_value} {(this.props.orderDetail.booking_by=='A')?Lookup['AU']:Lookup['MU']} </Text>
                             </View>
                         </View>
