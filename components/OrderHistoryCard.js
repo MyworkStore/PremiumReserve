@@ -33,10 +33,17 @@ function DispalyOrderStatus(props){
         case "R":
         return (
             <Text style={                                   
-                 styles.fontHeaderError               
+                 styles.fontHeaderRej               
                }>{props.param.text} </Text> 
          );
           break;
+          case "D":
+          return (
+              <Text style={                                   
+                   styles.fontHeaderError              
+                 }>{props.param.text} </Text> 
+           );
+        break;
         case "C":
         return (
             <Text style={                                   
@@ -50,13 +57,9 @@ function DispalyOrderStatus(props){
                  styles.fontHeaderError               
                }>{props.param.text} </Text> 
          );
-      }
-
-   
+      }   
 }
-
 export default class OrderHistoryCard extends Component {
-
     constructor(props) {
         super(props);
         Moment.locale('en');
@@ -97,14 +100,12 @@ export default class OrderHistoryCard extends Component {
         }           
         );          
       }
-
      componentDidMount(){
         //console.log("#################INPUT VIEW###########");
         //console.log('tb_product_master/');
         //console.log("tb_product_master/"+this.props.orderDetail.product_code);
         //console.log(this.props.orderDetail.order_no);
-        //console.log(this.props.orderDetail);
-                
+        //console.log(this.props.orderDetail);                
          this.setState({
             text: Lookup[this.props.orderDetail.order_status],
             status :this.props.orderDetail.order_status,
@@ -112,19 +113,14 @@ export default class OrderHistoryCard extends Component {
             //urlImage:'https://firebasestorage.googleapis.com/v0/b/allpremium-8a053.appspot.com/o/itemList%2F9000451.PNG?alt=media&token=73965efe-8e3a-4a36-9dc9-40d26b998130'
         });
          this.getProductInfo("tb_product_master/"+this.props.orderDetail.product_code);
-        
-      
-
        // console.log('##########'+this.state.text)
-
     }
     componentWillReceiveProps(nextProps){
         //console.log("#################INPUT VIEW###########");
         //console.log('tb_product_master/');
         //console.log("tb_product_master/"+this.props.orderDetail.product_code);
         //console.log(this.props.orderDetail.order_no);
-        //console.log(this.props.orderDetail);
-                
+        //console.log(this.props.orderDetail);                
          this.setState({
             text: Lookup[nextProps.orderDetail.order_status],
             status :nextProps.orderDetail.order_status,
@@ -132,11 +128,7 @@ export default class OrderHistoryCard extends Component {
             //urlImage:'https://firebasestorage.googleapis.com/v0/b/allpremium-8a053.appspot.com/o/itemList%2F9000451.PNG?alt=media&token=73965efe-8e3a-4a36-9dc9-40d26b998130'
         });
          this.getProductInfo("tb_product_master/"+nextProps.orderDetail.product_code);
-        
-      
-
        // console.log('##########'+this.state.text)
-
     }
     render() {
         
@@ -158,7 +150,7 @@ export default class OrderHistoryCard extends Component {
                                 <Text style={styles.fontDetailI}>{this.state.productName} </Text>
                                 <Text style={styles.fontDetailII}>Order # {this.state.orderNo}</Text>
                                 <Text style={styles.fontDetailII}>จำนวน # {this.props.orderDetail.booking_qty} PCS.  </Text>
-                                <Text style={styles.fontDetailII}>แลกด้วย # {(this.props.orderDetail.booking_by=='A')?"All-Member":"M-Stamp"} {this.props.orderDetail.booking_value} {(this.props.orderDetail.booking_by=='A')?"คะแนน":"บาท"} </Text>
+                                <Text style={styles.fontDetailII}>แลกด้วย # {(this.props.orderDetail.booking_by=='A')?Lookup['AN']:Lookup['MN']} {this.props.orderDetail.booking_value} {(this.props.orderDetail.booking_by=='A')?Lookup['AU']:Lookup['MU']} </Text>
                             </View>
                         </View>
                     </View>
@@ -195,6 +187,11 @@ const styles = StyleSheet.create({
         color:'red'
     }
     ,
+    fontHeaderRej:{
+        fontFamily: 'kanit-bold',
+        color:'#FFC300'
+    }
+    ,
     fontHeaderWarnning:{
         fontFamily: 'kanit-bold',
         color:'#D1CE05'
@@ -209,8 +206,7 @@ const styles = StyleSheet.create({
         color:'blue'
     },
     fontDetailI:{
-        fontFamily: 'kanit'
-   
+        fontFamily: 'kanit'   
     }
     ,
     fontDetailII:{
