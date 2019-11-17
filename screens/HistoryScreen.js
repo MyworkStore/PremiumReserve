@@ -168,7 +168,7 @@ export default class HistoryScreen extends React.Component {
             renderItem={this._render}
           />
           :
-          <Text style={[styles.fontHeaderInfo, { textAlign: 'center' }]}>ไม้มีข้อมูลการจอง</Text>
+          <Text style={[styles.fontHeaderInfo, { textAlign: 'center' }]}>ไม่พบข้อมูลการจอง</Text>
         }
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <TouchableOpacity

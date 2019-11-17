@@ -119,18 +119,17 @@ export default class HomeScreen extends React.Component {
   }
   
   _handleOpenWithWebBrowserManual = () => {
-    WebBrowser.openBrowserAsync('http://gahp.net/wp-content/uploads/2017/09/sample.pdf');
+    WebBrowser.openBrowserAsync('https://drive.google.com/open?id=1QFJmutDsXS043mPKBTikCO3TI9eVwukH');
   }
 
   _handleOpenWithWebBrowserPrivacy = () => {
-    WebBrowser.openBrowserAsync('https://drive.google.com/file/d/1u3WN35y910JB2z7o70NIYO3p4YgYzg7I/view?usp=sharing');
+    WebBrowser.openBrowserAsync('https://drive.google.com/open?id=1u3WN35y910JB2z7o70NIYO3p4YgYzg7I');
   }
 };
 
 HomeScreen.navigationOptions =  {
   title: 'All Premium',
   headerTitleStyle: { flex: 1, textAlign: 'center'}
-  //header: null,
 };
 
 const styles = StyleSheet.create({
@@ -156,11 +155,8 @@ const styles = StyleSheet.create({
   },
   actionMenu: {
     marginEnd: 5,
-    // marginVertical: 5
   },
   separator: {
     marginVertical: 5,
-    // borderBottomColor: '#737373',
-    // borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });

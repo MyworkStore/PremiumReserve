@@ -119,10 +119,10 @@ function CardItem(props){
               </View>
               <View style={{backgroundColor: '#ffffff', borderRadius: 10, padding: 5}}>
                 <Text>
-                  Point : {param.data.all_point}
+                  All Member Point : {param.data.all_point}
                 </Text>
                 <Text>
-                  Stamp : {param.data.m_stamp}
+                  M-Stamp : {param.data.m_stamp}
                 </Text>
                 <Text>
                   Cash : {param.data.cash}
